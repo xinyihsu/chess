@@ -4,7 +4,8 @@
 class Knight
 {
 private:
-
 public:
+	char icon = 'N';
+	Position pos;
 
 };

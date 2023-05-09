@@ -6,6 +6,14 @@ class King
 private:
 
 public:
-	bool iSMoveValid();
+	char icon = 'K';
+	Position pos;
+	bool ifMoveValid()
+	{
+		//送死
+		//有沒有別的棋
+		//可以吃
+		//超出版面
+	}
 
 }

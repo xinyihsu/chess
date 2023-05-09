@@ -4,7 +4,7 @@
 class Bishop
 {
 private:
-
 public:
-
+	char icon = 'B';
+	Position pos;
 };
