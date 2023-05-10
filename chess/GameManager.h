@@ -9,11 +9,10 @@ enum EndStatus {
 };
 
 
-
+//處理遊戲狀態
 class GameManager
 {
 private:
-
 public:
-
+	int turns; //輪到誰
 };

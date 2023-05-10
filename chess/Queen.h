@@ -1,6 +1,6 @@
 #pragma once
 // QUEEN, // 皇后(橫、直、斜走，不限制)
-
+#include <iostream>
 #include <set>
 using namespace std;
 set<pair<int, int>> setW;
