@@ -1,5 +1,8 @@
 #pragma once
+#include "Player.h"
+#include "Position.h"
 #include <vector>
+
 // PAWN // 兵(吃過路兵) //Promoting (升階)
 
 class Pawn
@@ -7,8 +10,10 @@ class Pawn
 private:
 public:
 	char icon = 'P';
-	//char color; //b.w
+	int color; //b.w
+	Player* black, * white;
 	Position pos;
+	vector<Position> moveData;//還沒存
 
 	/*Pawn(Position pPos)
 	{
@@ -17,12 +22,23 @@ public:
 
 	bool ifMoveValid(Position temp)
 	{
-		//有沒有自己別的棋 call set 
+		//有沒有自己別的棋
+		if (color == 1) {
+			if (black->playerBoard[temp.y][temp.x] != ' ') {
+				return false;
+			}
+		}
+		else if (color == -1) {
+			if (white->playerBoard[temp.y][temp.x] != ' ') {
+				return false;
+			}
+		}
+
 		//超出版面
-		if (this->pos.x > 'h' || this->pos.x < 'a') {
+		if (this->pos.x > 7 || this->pos.x < 0) {
 			return false;
 		}
-		if (this->pos.y > '8' || this->pos.y < '1') {
+		if (this->pos.y > 7 || this->pos.y < 0) {
 			return false;
 		}
 
@@ -30,18 +46,37 @@ public:
 	}
 
 	//可以移動的位置
-	vector<Position> canMove() {
+	std::vector<Position> canMove() {
 		Position temp;
-		vector<Position> answer;
-		for (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				temp.x = this->pos.x + i;
-				temp.y = this->pos.y + i;
-				if (ifMoveValid(temp)) {
+
+		temp.x = this->pos.x;
+		std::vector<Position> answer;
+		if (color == 1) {
+			if (moveData.size() == 1) {
+				temp.y = this->pos.y + 2;
+				if (ifMoveValid(temp) && white->playerBoard[temp.y][temp.x] == ' ') {
 					answer.push_back(temp);
 				}
 			}
+			temp.y = this->pos.y + 1;
+			if (ifMoveValid(temp)) {
+				answer.push_back(temp);
+			}
 		}
+		else {
+			if (moveData.size() == 1) {
+				temp.y = this->pos.y - 2;
+				if (ifMoveValid(temp) && black->playerBoard[temp.y][temp.x] == ' ') {
+					answer.push_back(temp);
+				}
+			}
+			temp.y = this->pos.y - 1;
+			if (ifMoveValid(temp)) {
+				answer.push_back(temp);
+			}
+		}
+
+		return answer;
 	}
 
 	char getIcon() {

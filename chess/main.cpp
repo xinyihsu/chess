@@ -1,18 +1,26 @@
-#include "Position.h"
-#include "GameManager.h"
-#include "Player.h"
-#include "ViewManager.h"
+//#include "Position.h"
+//#include "Player.h"
+//#include "GameManager.h"
+//#include "ViewManager.h"
+
 #include <iostream>
+#include <vector>
+#include "Position.h"
+#include "Player.h"
+#include "GameManager.h"
+#include "ViewManager.h"
 
 using namespace std;
 
 Player black(1), white(-1); //白方, 黑方
 char** gBoard;
-ViewManager chess;
+ViewManager myChess;
 GameManager myGame;
 
 int main()
 {
+	myChess.black = &black;
+	myChess.white = &white;
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
 			if (black.playerBoard[i][j] != ' ')
@@ -20,6 +28,7 @@ int main()
 		}
 		cout << endl;
 	}
+
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
 			if (white.playerBoard[i][j] != ' ')
@@ -27,6 +36,7 @@ int main()
 		}
 		cout << endl;
 	}
+
 	myGame.turns = -1; //白先 //可再多加玩家決定誰先
 
 	while (1) {
@@ -56,9 +66,6 @@ int main()
 				}
 				continue;
 			}
-			else {
-				//move
-			}
 		}
 		else if (myGame.turns == -1) {
 			chess = white.playerBoard[fromPos.y][fromPos.x];
@@ -71,11 +78,9 @@ int main()
 				}
 				continue;
 			}
-			else {
-				//move
-
-			}
 		}
+
+		myChess.printCanMove(chess);
 
 		Position toPos;
 		cout << "input x y (to):";
@@ -88,5 +93,58 @@ int main()
 			continue;
 		}
 
+		if (fromPos == toPos) {
+			cout << "invalid position(重複)" << endl;
+			continue;
+		}
+
+		//move or eat
+		if (myGame.turns == 1) {
+			if (black.playerBoard[toPos.y][toPos.x] != ' ') {
+				cout << "invalid position (位置上已經有棋子)" << endl;
+			}
+			else {
+				//move
+				if (black.move(chess, fromPos, toPos)) {
+					cout << "成功" << endl;
+				}
+				else {
+					cout << "invalid move way" << endl;
+					break;
+				}
+
+				//eat
+				if (white.playerBoard[toPos.y][toPos.x] != ' ') {
+					//把白棋刪除
+					white.beEat(toPos);
+				}
+			}
+		}
+		else if (myGame.turns == -1) {
+			if (white.playerBoard[toPos.y][toPos.x] != ' ') {
+				cout << "invalid position (位置上已經有棋子)" << endl;
+				break;
+			}
+			else {
+				//move
+				if (white.move(chess, fromPos, toPos)) {
+					cout << "成功" << endl;
+				}
+				else {
+					cout << "invalid move way" << endl;
+					break;
+				}
+
+				//eat
+				if (black.playerBoard[toPos.y][toPos.x] != ' ') {
+					//把黑棋刪除
+					black.beEat(toPos);
+				}
+			}
+		}
+
+		black.update();
+		white.update();
+		myChess.printBoard();
 	}
 }

@@ -1,2 +1,130 @@
 ﻿  main.cpp
-  chess.vcxproj -> C:\Users\dora5\Desktop\program\OOP\Chess\chess\Debug\chess.exe
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(11,8): error C2143: 語法錯誤: 遺漏 ';' (在 '*' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(11,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(11,24): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(13,8): error C2143: 語法錯誤: 遺漏 ';' (在 '<' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(13,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(13,31): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(21,8): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(26,8): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(45,3): error C2065: 'vector': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(45,10): error C2275: 'Position': 將此類型當做運算式的使用方式不合法
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Position.h(4): message : 請參閱 'Position' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(45,20): error C2065: 'answer': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(51,6): error C2065: 'chessCanMove': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(17,8): error C2143: 語法錯誤: 遺漏 ';' (在 '*' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(17,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(17,15): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(18,8): error C2143: 語法錯誤: 遺漏 ';' (在 '*' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(18,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(18,15): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(25,8): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(30,8): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(56,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(61,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(78,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(83,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(100,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(105,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(122,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(127,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(144,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(149,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(166,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(171,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(188,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(193,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(210,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(215,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(12,8): error C2143: 語法錯誤: 遺漏 ';' (在 '*' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(12,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(12,24): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(100,8): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(105,8): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(131,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(136,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(153,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(158,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(175,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(180,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(197,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(202,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(12,8): error C2143: 語法錯誤: 遺漏 ';' (在 '*' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(12,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(12,24): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(42,8): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(47,8): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(74,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(79,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(96,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(101,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(118,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(123,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(140,10): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(145,10): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(13,8): error C2143: 語法錯誤: 遺漏 ';' (在 '*' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(13,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(13,24): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(40,8): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(45,8): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(14,8): error C2143: 語法錯誤: 遺漏 ';' (在 '*' 之前)
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(14,8): error C4430: 遺漏類型規範 - 假設為 int。注意: C++ 不支援 default-int
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(14,24): error C2238: 在 ';' 之前有未預期的語彙基元
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(27,8): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(32,8): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(57,30): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(69,30): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(62,9): error C2039: 'black': 並非 'Pawn' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(8): message : 請參閱 'Pawn' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(62,18): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(63,9): error C2039: 'white': 並非 'Pawn' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Pawn.h(8): message : 請參閱 'Pawn' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(63,18): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(83,12): error C2039: 'black': 並非 'Rook' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(6): message : 請參閱 'Rook' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(83,21): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(84,12): error C2039: 'white': 並非 'Rook' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(6): message : 請參閱 'Rook' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(84,21): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(85,12): error C2039: 'black': 並非 'Rook' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(6): message : 請參閱 'Rook' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(85,21): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(86,12): error C2039: 'white': 並非 'Rook' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Rook.h(6): message : 請參閱 'Rook' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(86,21): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(106,12): error C2039: 'black': 並非 'Knight' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(7): message : 請參閱 'Knight' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(106,21): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(107,12): error C2039: 'white': 並非 'Knight' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(7): message : 請參閱 'Knight' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(107,21): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(108,12): error C2039: 'black': 並非 'Knight' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(7): message : 請參閱 'Knight' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(108,21): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(109,12): error C2039: 'white': 並非 'Knight' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Knight.h(7): message : 請參閱 'Knight' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(109,21): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(129,12): error C2039: 'black': 並非 'Bishop' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(6): message : 請參閱 'Bishop' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(129,21): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(130,12): error C2039: 'white': 並非 'Bishop' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(6): message : 請參閱 'Bishop' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(130,21): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(131,12): error C2039: 'black': 並非 'Bishop' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(6): message : 請參閱 'Bishop' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(131,21): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(132,12): error C2039: 'white': 並非 'Bishop' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Bishop.h(6): message : 請參閱 'Bishop' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(132,21): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(148,9): error C2039: 'black': 並非 'Queen' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(11): message : 請參閱 'Queen' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(148,18): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(149,9): error C2039: 'white': 並非 'Queen' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Queen.h(11): message : 請參閱 'Queen' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(149,18): error C2065: 'white': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(163,8): error C2039: 'black': 並非 'King' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(6): message : 請參閱 'King' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(163,17): error C2065: 'black': 未宣告的識別項
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(164,8): error C2039: 'white': 並非 'King' 的成員
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\King.h(6): message : 請參閱 'King' 的宣告
+C:\Users\dora5\Desktop\program\OOP\Chess\chess\chess\Player.h(164,1): fatal error C1003: 錯誤計數超過 100; 停止編譯

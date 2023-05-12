@@ -47,10 +47,10 @@
     <ClInclude Include="Pawn.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="Move.h">
+    <ClInclude Include="Position.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="Position.h">
+    <ClInclude Include="include.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

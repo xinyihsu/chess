@@ -8,7 +8,6 @@ enum EndStatus {
 	SURRENDER, //認輸
 };
 
-
 //處理遊戲狀態
 class GameManager
 {
