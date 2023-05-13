@@ -55,18 +55,18 @@ public:
 			if (moveTimes == 0 && (dy == -2 || dy == -1)) {
 				return true;
 			}
-			else if (dy == -1) {
+			else if (moveTimes != 0 && dy == -1) {
 				
-				return false;
+				return true;
 			}
 		}
 		else {
 			if (moveTimes == 0 && (dy == 2 || dy == 1)) {
 				return true;
 			}
-			else if (dy == 1) {
+			else if (moveTimes != 0 && dy == 1) {
 
-				return false;
+				return true;
 			}
 		}
 		cout << "failed to move\n";

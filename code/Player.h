@@ -8,18 +8,11 @@
 #include "Pawn.h" //兵
 #include <vector>
 
-struct findChess
-{
-	int index;
-	int color;
-	vector<Position> canMovePos;
-};
-
-
 //管理棋子
 class Player
 {
 private:
+public:
 	int color = 1; // 1:黑 -1:白
 	vector<King> king;
 	vector<Queen> queen;
@@ -27,9 +20,10 @@ private:
 	vector<Bishop> bishop;
 	vector<Knight> knight;
 	vector<Pawn> pawn;
-
-public:
 	char** playerBoard;
+	bool PMove = false;
+	bool haveEat = false;
+
 	
 	//init chess
 	Player(int turn)
@@ -196,6 +190,7 @@ public:
 			if (pawn[index].move(toPos)) {
 				pawn[index].pos.setPosition(toPos);
 				pawn[index].moveTimes++;
+				this->PMove = true;
 				return true;
 			}
 			break;
@@ -214,7 +209,7 @@ public:
 				for (int j = -1; j <= 1; j++) {
 					temp.x = king[index].pos.x + i;
 					temp.y = king[index].pos.y + j;
-					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 						king[index].canMovePos.push_back(temp);
 					}
 					else {
@@ -228,7 +223,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x - i;
 				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -243,7 +238,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x + i;
 				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -258,7 +253,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x - i;
 				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -273,7 +268,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x + i;
 				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -288,7 +283,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x;
 				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -303,7 +298,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x;
 				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -318,7 +313,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x - i;
 				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					rook[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -333,7 +328,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x + i;
 				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					rook[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -350,7 +345,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x;
 				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -365,7 +360,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x;
 				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -380,7 +375,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x - i;
 				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -395,7 +390,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x + i;
 				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					queen[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -411,7 +406,7 @@ public:
 			for (int i = 0; i < 8; i++) {
 				temp.x = knight[index].pos.x + knight[index].step[i].first;
 				temp.y = knight[index].pos.y + knight[index].step[i].second;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					knight[index].canMovePos.push_back(temp);
 				}
 			}
@@ -421,7 +416,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x - i;
 				temp.y = bishop[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -436,7 +431,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x + i;
 				temp.y = bishop[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -451,7 +446,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x - i;
 				temp.y = bishop[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -466,7 +461,7 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x + i;
 				temp.y = bishop[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -483,24 +478,24 @@ public:
 			if (color == 1) {
 				if (pawn[index].moveTimes == 1) {
 					temp.y = pawn[index].pos.y + 2;
-					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 						pawn[index].canMovePos.push_back(temp);
 					}
 				}
 				temp.y = pawn[index].pos.y + 1;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					pawn[index].canMovePos.push_back(temp);
 				}
 			}
 			else {
 				if (pawn[index].moveTimes == 1) {
 					temp.y = pawn[index].pos.y - 2;
-					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 						pawn[index].canMovePos.push_back(temp);
 					}
 				}
 				temp.y = pawn[index].pos.y - 1;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 || temp.x >= 0 || temp.y <= 7 || temp.y >= 0) {
+				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
 					pawn[index].canMovePos.push_back(temp);
 				}
 			}
@@ -511,6 +506,7 @@ public:
 	//棋子被吃
 	void beEat(Position chessPos)
 	{
+		this->haveEat = true;
 		char theChess = playerBoard[chessPos.y][chessPos.x];
 		//find the chess
 		int i;

@@ -1,5 +1,4 @@
 #pragma once
-#include "Player.h"
 #include "Position.h"
 // ROOK // 城堡(橫、直走，不限制) // Castle (入堡) 
 

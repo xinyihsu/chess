@@ -21,15 +21,19 @@ int main()
 {
 	myChess.black = &black;
 	myChess.white = &white;
-	myChess.printBoard();
-
 	myGame.turns = -1; //白先 //可再多加玩家決定誰先
+	myChess.printBoard();
 
 	while (1) {
 		char chess;
 		string input;
 		cout << "input x y (from):";
 		cin >> input;
+
+		/*if (sizeof(input) != 2 || !isalpha(input[0]) || !isdigit(input[1])) {
+			cout << "invalid input" << endl;
+			continue;
+		}*/
 
 		Position fromPos;
 		fromPos.x = input[0] - 'a';
@@ -105,7 +109,6 @@ int main()
 					white.beEat(toPos);
 				}
 			}
-				myGame.turns == -1;
 		}
 		else if (myGame.turns == -1) {
 			if (white.playerBoard[toPos.y][toPos.x] != ' ') {
@@ -128,26 +131,26 @@ int main()
 					black.beEat(toPos);
 				}
 			}
-			myGame.turns == 1;
 		}
 
 		if (myGame.turns == 1) {
-			myGame.turns == -1;
+			myGame.turns = -1;
 		}
 		else {
-			myGame.turns == 1;
+			myGame.turns = 1;
 		}
 		black.update();
-		black.updateCanMovePos(chess, fromPos, white);
+		//black.updateCanMovePos(chess, fromPos, white);
 		white.update();
-		white.updateCanMovePos(chess, fromPos, black);
+		//white.updateCanMovePos(chess, fromPos, black);
+
 		myChess.printBoard();
+
 		if (myGame.turns == 1) {
 			cout << "It's black turn." << endl;
 		}
 		else {
 			cout << "It's white turn." << endl;
 		}
-
 	}
 }
