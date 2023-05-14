@@ -1,9 +1,8 @@
 #pragma once
-#include "Player.h"
 #include "Position.h"
 // BISHOP, // ¥D±Ð(±×¨«¡A¤£­­¨î)
 
-class Bishop
+class Bishop// : public ChessMove
 {
 private:
 public:
@@ -12,12 +11,14 @@ public:
 	Position pos;
 	vector<Position> canMovePos;
 
-	Bishop() {
+	Bishop() 
+	{
 		this->pos.x = 0;
 		this->pos.y = 0;
 	}
 
-	Bishop(int index, int color) {
+	Bishop(int index, int color) 
+	{
 		if (index == 0) {
 			this->pos.x = 2;
 		}
@@ -35,20 +36,33 @@ public:
 		this->color = color;
 	}
 
-	Bishop(Position thePos) {
+	Bishop(Position thePos) 
+	{
 		this->pos = thePos;
 	}
 
-	bool move(Position to) 
+	bool move(Position to)
 	{
-		int dx = pos.x - to.x, dy = pos.y - to.y;
-		if (abs(dx) != abs(dy)) {
-			cout << "failed to move\n";
-			return false;
+		for (int i = 0; i < canMovePos.size(); i++) {
+			if (to == canMovePos[i]) {
+				return true;
+			}
 		}
 
-		return true;
-		//moves.insert(make_pair(x, y)); // ¾ú¥v¬ö¿ýUndo/Redo?
-		//moves.insert(make_pair(desX, desY));
+		cout << "failed to move\n";
+		return false;
 	}
+
+	//bool move(Position to) 
+	//{
+	//	int dx = pos.x - to.x, dy = pos.y - to.y;
+	//	if (abs(dx) != abs(dy)) {
+	//		cout << "failed to move\n";
+	//		return false;
+	//	}
+
+	//	return true;
+	//	//moves.insert(make_pair(x, y)); // ¾ú¥v¬ö¿ýUndo/Redo?
+	//	//moves.insert(make_pair(desX, desY));
+	//}
 };

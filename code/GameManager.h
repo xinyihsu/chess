@@ -17,15 +17,15 @@ public:
 	int turns; //輪到誰
 	int countMove = 0;
 
-	bool testIfDraw(Player& thePlayer, Player& opponent)
+	bool testIfDraw(Player& black, Player& white)
 	{
 		countMove++;
-		if (thePlayer.PMove || thePlayer.haveEat || opponent.PMove || opponent.haveEat) {
+		if (black.PMove || black.haveEat || white.PMove || white.haveEat) {
 			countMove = 0;
-			thePlayer.PMove = false;
-			thePlayer.haveEat = false;
-			opponent.PMove = false;
-			opponent.haveEat = false;
+			black.PMove = false;
+			black.haveEat = false;
+			white.PMove = false;
+			white.haveEat = false;
 		}
 		/**逼和*************************************************/
 		bool ifCanNotMove = true;
@@ -34,36 +34,36 @@ public:
 		//將死???
 		
 		//queen
-		for (int i = 0; i < thePlayer.queen.size(); i++){
-			if (thePlayer.queen[i].canMovePos.size() != 0){
+		for (int i = 0; i < black.queen.size(); i++){
+			if (black.queen[i].canMovePos.size() != 0){
 				ifCanNotMove = false;
 			}
 		}
 
 		//rook
-		for (int i = 0; i < thePlayer.rook.size(); i++){
-			if (thePlayer.rook[i].canMovePos.size() != 0) {
+		for (int i = 0; i < black.rook.size(); i++){
+			if (black.rook[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
 
 		//knight
-		for (int i = 0; i < thePlayer.knight.size(); i++)	{
-			if (thePlayer.knight[i].canMovePos.size() != 0) {
+		for (int i = 0; i < black.knight.size(); i++)	{
+			if (black.knight[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
 
 		//bishop
-		for (int i = 0; i < thePlayer.bishop.size(); i++){
-			if (thePlayer.bishop[i].canMovePos.size() != 0) {
+		for (int i = 0; i < black.bishop.size(); i++){
+			if (black.bishop[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
 
 		//pawn
-		for (int i = 0; i < thePlayer.pawn.size(); i++){
-			if (thePlayer.pawn[i].canMovePos.size() != 0) {
+		for (int i = 0; i < black.pawn.size(); i++){
+			if (black.pawn[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
@@ -72,7 +72,7 @@ public:
 			return true;
 		}
 		/**75步*************************************************/
-		if (!thePlayer.PMove && !thePlayer.haveEat && countMove >=75) {
+		if (!black.PMove && !black.haveEat && countMove >=75) {
 			return true;
 		}
 		/**不可能將死*******************************************/

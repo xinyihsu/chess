@@ -23,6 +23,8 @@ int main()
 	myChess.white = &white;
 	myGame.turns = -1; //白先 //可再多加玩家決定誰先
 	myChess.printBoard();
+	black.updateCanMovePos(white);
+	white.updateCanMovePos(black);
 
 	while (1) {
 		char chess;
@@ -140,9 +142,14 @@ int main()
 			myGame.turns = 1;
 		}
 		black.update();
-		//black.updateCanMovePos(chess, fromPos, white);
+		black.updateCanMovePos(white);
 		white.update();
-		//white.updateCanMovePos(chess, fromPos, black);
+		white.updateCanMovePos(black);
+
+		if (myGame.testIfDraw(black, white)) {
+			cout << "Draw" << endl;
+			break;
+		}
 
 		myChess.printBoard();
 

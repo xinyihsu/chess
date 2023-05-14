@@ -52,6 +52,18 @@ public:
 
 	bool move(Position to)
 	{
+		for (int i = 0; i < canMovePos.size(); i++) {
+			if (to == canMovePos[i]) {
+				return true;
+			}
+		}
+
+		cout << "failed to move\n";
+		return false;
+	}
+
+	/*bool move(Position to)
+	{
 		int dx = pos.x - to.x, dy = pos.y - to.y;
 		for (int i = 0; i < 8; i++) {
 			if (dx == step[i].first && dy == step[i].second) {
@@ -61,5 +73,5 @@ public:
 		
 		cout << "failed to move\n";
 		return false;
-	}
+	}*/
 };

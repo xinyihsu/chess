@@ -199,92 +199,170 @@ public:
 		return false;
 	}
 
-	void updateCanMovePos(char chess, Position fromPos, const Player& opponent)
+	void updateCanMovePos(const Player& opponent)
 	{
-		int index = findTheChess(chess, fromPos);
 		Position temp;
-		switch (chess) {
-		case 'K':
-			for (int i = -1; i <= 1; i++) {
-				for (int j = -1; j <= 1; j++) {
-					temp.x = king[index].pos.x + i;
-					temp.y = king[index].pos.y + j;
+		// K
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				temp.x = king[0].pos.x + i;
+				temp.y = king[0].pos.y + j;
+				if (temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+					if (playerBoard[temp.y][temp.x] == ' ') {
+						king[0].canMovePos.push_back(temp);
+					}
+					else {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+		}
+		
+		//Q
+		for (int index = 0; index < queen.size(); index++) {
+			//to left up
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x - i;
+				temp.y = queen[index].pos.y - i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					queen[index].canMovePos.push_back(temp);
+					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+
+			//to right down
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x + i;
+				temp.y = queen[index].pos.y + i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					queen[index].canMovePos.push_back(temp);
+					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+
+			//to left down
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x - i;
+				temp.y = queen[index].pos.y + i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					queen[index].canMovePos.push_back(temp);
+					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+
+			//to right up
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x + i;
+				temp.y = queen[index].pos.y - i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					queen[index].canMovePos.push_back(temp);
+					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+
+			//go up
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x;
+				temp.y = queen[index].pos.y - i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					queen[index].canMovePos.push_back(temp);
+					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+
+			//go down
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x;
+				temp.y = queen[index].pos.y + i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					queen[index].canMovePos.push_back(temp);
+					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+
+			//go left
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x - i;
+				temp.y = queen[index].pos.y;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					queen[index].canMovePos.push_back(temp);
+					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+
+			//go right
+			for (int i = 1; i < 8; i++) {
+				temp.x = queen[index].pos.x + i;
+				temp.y = queen[index].pos.y;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-						king[index].canMovePos.push_back(temp);
+						queen[index].canMovePos.push_back(temp);
+						if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+							break;
+						}
 					}
 					else {
 						break;
 					}
 				}
 			}
-			break;
-		case 'Q':
-			//to left up
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x - i;
-				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
+		}
 
-			//to right down
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x + i;
-				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
-
-			//to left down
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x - i;
-				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
-
-			//to right up
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x + i;
-				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
-
+		//R
+		for (int index = 0; index < rook.size(); index++) {
 			//go up
 			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x;
-				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
+				temp.x = rook[index].pos.x;
+				temp.y = rook[index].pos.y - i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					rook[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
 					}
@@ -296,10 +374,11 @@ public:
 
 			//go down
 			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x;
-				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
+				temp.x = rook[index].pos.x;
+				temp.y = rook[index].pos.y + i;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
+					rook[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
 					}
@@ -311,9 +390,10 @@ public:
 
 			//go left
 			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x - i;
-				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				temp.x = rook[index].pos.x - i;
+				temp.y = rook[index].pos.y;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					rook[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -326,9 +406,10 @@ public:
 
 			//go right
 			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x + i;
-				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				temp.x = rook[index].pos.x + i;
+				temp.y = rook[index].pos.y;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					rook[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -338,85 +419,28 @@ public:
 					break;
 				}
 			}
-
-			break;
-		case 'R':
-			//go up
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x;
-				temp.y = queen[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
-
-			//go down
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x;
-				temp.y = queen[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
-
-			//go left
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x - i;
-				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
-
-			//go right
-			for (int i = 1; i < 8; i++) {
-				temp.x = queen[index].pos.x + i;
-				temp.y = queen[index].pos.y;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					queen[index].canMovePos.push_back(temp);
-					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
-						break;
-					}
-				}
-				else {
-					break;
-				}
-			}
+		}
 		
-			break;
-		case 'N':
+		//N
+		for (int index = 0; index < knight.size(); index++) {
 			for (int i = 0; i < 8; i++) {
 				temp.x = knight[index].pos.x + knight[index].step[i].first;
 				temp.y = knight[index].pos.y + knight[index].step[i].second;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					knight[index].canMovePos.push_back(temp);
 				}
 			}
-			break;
-		case 'B':
+		}
+		
+		//B
+		for (int index = 0; index < bishop.size(); index++) {
 			//to left up
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x - i;
 				temp.y = bishop[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -431,7 +455,8 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x + i;
 				temp.y = bishop[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -446,7 +471,8 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x - i;
 				temp.y = bishop[index].pos.y + i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -461,7 +487,8 @@ public:
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x + i;
 				temp.y = bishop[index].pos.y - i;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					bishop[index].canMovePos.push_back(temp);
 					if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 						break;
@@ -471,35 +498,41 @@ public:
 					break;
 				}
 			}
-			
-			break;
-		case 'P':
+		}
+		
+		//P
+		for (int index = 0; index < pawn.size(); index++){
 			temp.x = pawn[index].pos.x;
 			if (color == 1) {
-				if (pawn[index].moveTimes == 1) {
+				if (pawn[index].moveTimes == 0) {
 					temp.y = pawn[index].pos.y + 2;
-					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-						pawn[index].canMovePos.push_back(temp);
+					if (temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+						if (playerBoard[temp.y][temp.x] == ' ') {
+							pawn[index].canMovePos.push_back(temp);
+						}
 					}
 				}
 				temp.y = pawn[index].pos.y + 1;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					pawn[index].canMovePos.push_back(temp);
 				}
 			}
 			else {
-				if (pawn[index].moveTimes == 1) {
+				if (pawn[index].moveTimes == 0) {
 					temp.y = pawn[index].pos.y - 2;
-					if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-						pawn[index].canMovePos.push_back(temp);
+					if (temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+						if (playerBoard[temp.y][temp.x] == ' ') {
+							pawn[index].canMovePos.push_back(temp);
+						}
 					}
 				}
 				temp.y = pawn[index].pos.y - 1;
-				if (playerBoard[temp.y][temp.x] == ' ' && temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (playerBoard[temp.y][temp.x] == ' ') {
 					pawn[index].canMovePos.push_back(temp);
 				}
 			}
-			break;
 		}
 	}
 

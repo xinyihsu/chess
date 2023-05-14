@@ -17,6 +17,7 @@ public:
 	{
 		system("cls");
 		for (int i = 0; i < 8; i++) {
+			cout << 8 - i;
 			for (int j = 0; j < 8; j++) {
 				if ((i % 2 == 0 && j % 2 == 0) || ((i % 2 == 1 && j % 2 == 1))) {
 					cout << "\033[43m"; //¶À©³
@@ -38,6 +39,9 @@ public:
 			}
 			cout << endl;
 		}
+
+		cout << " abcdefgh" << endl;
+		
 	}
 
 	void printCanMove(char chess)

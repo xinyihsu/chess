@@ -40,6 +40,18 @@ public:
 
 	bool move(Position to)
 	{
+		for (int i = 0; i < canMovePos.size(); i++) {
+			if (to == canMovePos[i]) {
+				return true;
+			}
+		}
+
+		cout << "failed to move\n";
+		return false;
+	}
+
+	/*bool move(Position to)
+	{
 		int dx = pos.x - to.x, dy = pos.y - to.y;
 
 		if (dx == 0 && dy > 0) {
@@ -50,5 +62,5 @@ public:
 		}
 		cout << "failed to move\n";
 		return false;
-	}
+	}*/
 };

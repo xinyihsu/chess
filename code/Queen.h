@@ -39,16 +39,20 @@ public:
 
 	bool move(Position to)
 	{
-		int dx = pos.x - to.x, dy = pos.y - to.y;
+		for (int i = 0; i < canMovePos.size(); i++) {
+			if (to == canMovePos[i]) {
+				return true;
+			}
+		}
+
+		/*int dx = pos.x - to.x, dy = pos.y - to.y;
 		if (abs(dx) == abs(dy)) {
 			return true;
 		}
-		if (dx == 0 && dy > 0) {
+		if (dx == 0 || dy ==0) {
 			return true;
-		}
-		if (dy == 0 && dx > 0) {
-			return true;
-		}
+		}*/
+		
 		cout << "failed to move\n";
 		return false;
 	}
