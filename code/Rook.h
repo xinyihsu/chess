@@ -8,6 +8,7 @@ private:
 public:
 	int color;
 	char icon = 'R';
+	bool isMove = false;
 	Position pos;
 	vector<Position> canMovePos;
 	

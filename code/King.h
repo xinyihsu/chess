@@ -7,6 +7,8 @@ class King
 public:
 	int color = 1; //1:¶Â -1:¥Õ
 	char icon = 'K';
+	bool isMove = false;
+	bool isCheckMate = false;
 	Position pos;
 	vector<Position> canMovePos;
 

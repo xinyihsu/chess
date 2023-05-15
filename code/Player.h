@@ -150,15 +150,20 @@ public:
 		switch (chess) {
 		case 'K':
 			if (king[index].move(toPos)) {
-				if (color == 1) {
-					for (int i = 0; i < 8; i++) {
-						for (int j = 0; j < 8; j++) {
-							//if ()
-						}
+				//不能自殺
+				king[index].pos.setPosition(toPos);
+				int dx = toPos.x - king[index].pos.x;
+				int dy = toPos.y - king[index].pos.y;
+				if (dy == 0 && abs(dx) == 2 && !king[index].isMove && !king[index].isCheckMate) {
+					//路中無棋子
+					if (dx > 0) {
+						//index
+						rook[index].pos.setPosition(toPos.y,toPos.x-1);
+					}
+					else {
+						rook[index].pos.setPosition(toPos.y, toPos.x +1);
 					}
 				}
-				
-				king[index].pos.setPosition(toPos);
 				return true;
 			}
 			break;
@@ -219,6 +224,12 @@ public:
 					break;
 				}
 			}
+		}
+		if (!king[0].isMove && !king[0].isCheckMate) {
+			temp.x += 2;
+			king[0].canMovePos.push_back(temp);
+			temp.x -= 2;
+			king[0].canMovePos.push_back(temp);
 		}
 		
 		//Q
