@@ -12,13 +12,12 @@
 
 using namespace std;
 
-Player black(1), white(-1); //白方, 黑方
-char** gBoard;
-ViewManager myChess;
-GameManager myGame;
 
 int main()
 {
+	Player black(1), white(-1); //白方, 黑方
+	ViewManager myChess;
+	GameManager myGame;
 	myChess.black = &black;
 	myChess.white = &white;
 	myGame.turns = -1; //白先 //可再多加玩家決定誰先
@@ -32,10 +31,29 @@ int main()
 		cout << "input x y (from):";
 		cin >> input;
 
-		/*if (sizeof(input) != 2 || !isalpha(input[0]) || !isdigit(input[1])) {
+		//redo
+		if (input == "redo")
+		{
+			black.reset();
+			white.reset();
+
+			black.update();
+			white.update();
+			
+			black.updateCanMovePos(white);
+			white.updateCanMovePos(black);
+
+			myGame.turns = -1; //白先 //可再多加玩家決定誰先
+			myChess.printBoard();
+
+			cout << "redo successful" << endl;
+			continue;
+		}
+
+		if (input.size() != 2 || !isalpha(input[0]) || !isdigit(input[1])) {
 			cout << "invalid input" << endl;
 			continue;
-		}*/
+		}
 
 		Position fromPos;
 		fromPos.x = input[0] - 'a';
@@ -72,7 +90,6 @@ int main()
 			}
 		}
 		cout << "You are going to move " << chess << endl; //測試用
-		//myChess.printCanMove(chess);
 
 		Position toPos;
 		cout << "input x y (to):";
@@ -90,6 +107,7 @@ int main()
 			continue;
 		}
 
+		//myChess.printCanMove(chess);
 		//move or eat
 		if (myGame.turns == 1) {
 			if (black.playerBoard[toPos.y][toPos.x] != ' ') {

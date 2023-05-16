@@ -44,15 +44,6 @@ public:
 				return true;
 			}
 		}
-
-		/*int dx = pos.x - to.x, dy = pos.y - to.y;
-		if (abs(dx) == abs(dy)) {
-			return true;
-		}
-		if (dx == 0 || dy ==0) {
-			return true;
-		}*/
-		
 		cout << "failed to move\n";
 		return false;
 	}

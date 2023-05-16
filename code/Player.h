@@ -81,7 +81,7 @@ public:
 
 	int findTheChess(char chess, Position fromPos)
 	{
-		int index=0;
+		int index = 0;
 		//find the chess
 		switch (chess)
 		{
@@ -151,19 +151,21 @@ public:
 		case 'K':
 			if (king[index].move(toPos)) {
 				//不能自殺
-				king[index].pos.setPosition(toPos);
 				int dx = toPos.x - king[index].pos.x;
 				int dy = toPos.y - king[index].pos.y;
-				if (dy == 0 && abs(dx) == 2 && !king[index].isMove && !king[index].isCheckMate) {
-					//路中無棋子
-					if (dx > 0) {
-						//index
-						rook[index].pos.setPosition(toPos.y,toPos.x-1);
+				king[index].pos.setPosition(toPos);
+				if (dy == 0) {
+					//路中無棋子(updateCanMove)
+					if (dx == 2) {
+						rook[1].pos.setPosition(toPos.x - 1, toPos.y);
+						rook[1].isMove = true;
 					}
-					else {
-						rook[index].pos.setPosition(toPos.y, toPos.x +1);
+					else if(dx == -2){
+						rook[0].pos.setPosition(toPos.x + 1, toPos.y);
+						rook[0].isMove = true;
 					}
 				}
+				king[0].isMove = true;
 				return true;
 			}
 			break;
@@ -176,6 +178,7 @@ public:
 		case 'R':
 			if (rook[index].move(toPos)) {
 				rook[index].pos.setPosition(toPos);
+				rook[index].isMove = true;
 				return true;
 			}
 			break;
@@ -208,6 +211,7 @@ public:
 	{
 		Position temp;
 		// K
+		king[0].canMovePos.clear();
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				temp.x = king[0].pos.x + i;
@@ -216,24 +220,28 @@ public:
 					if (playerBoard[temp.y][temp.x] == ' ') {
 						king[0].canMovePos.push_back(temp);
 					}
-					else {
-						break;
-					}
-				}
-				else {
-					break;
 				}
 			}
 		}
 		if (!king[0].isMove && !king[0].isCheckMate) {
-			temp.x += 2;
-			king[0].canMovePos.push_back(temp);
-			temp.x -= 2;
-			king[0].canMovePos.push_back(temp);
+			temp.x = king[0].pos.x + 2;
+			temp.y = king[0].pos.y;
+			for (int i = king[0].pos.x + 1; i < 7; i++) {
+				if (this->playerBoard[king[0].pos.y][i] == ' ' && opponent.playerBoard[king[0].pos.y][i] == ' ') {
+					king[0].canMovePos.push_back(temp);
+				}
+			}
+			temp.x = king[0].pos.x - 2;
+			for (int i = king[0].pos.x - 1; i >= 1; i--) {
+				if (this->playerBoard[king[0].pos.y][i] == ' ' && opponent.playerBoard[king[0].pos.y][i] == ' ') {
+					king[0].canMovePos.push_back(temp);
+				}
+			}
 		}
 		
 		//Q
 		for (int index = 0; index < queen.size(); index++) {
+			queen[index].canMovePos.clear();
 			//to left up
 			for (int i = 1; i < 8; i++) {
 				temp.x = queen[index].pos.x - i;
@@ -367,6 +375,7 @@ public:
 
 		//R
 		for (int index = 0; index < rook.size(); index++) {
+			rook[index].canMovePos.clear();
 			//go up
 			for (int i = 1; i < 8; i++) {
 				temp.x = rook[index].pos.x;
@@ -434,10 +443,11 @@ public:
 		
 		//N
 		for (int index = 0; index < knight.size(); index++) {
+			knight[index].canMovePos.clear();
 			for (int i = 0; i < 8; i++) {
 				temp.x = knight[index].pos.x + knight[index].step[i].first;
 				temp.y = knight[index].pos.y + knight[index].step[i].second;
-				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
+				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) continue;
 				if (playerBoard[temp.y][temp.x] == ' ') {
 					knight[index].canMovePos.push_back(temp);
 				}
@@ -446,6 +456,7 @@ public:
 		
 		//B
 		for (int index = 0; index < bishop.size(); index++) {
+			bishop[index].canMovePos.clear();
 			//to left up
 			for (int i = 1; i < 8; i++) {
 				temp.x = bishop[index].pos.x - i;
@@ -513,6 +524,7 @@ public:
 		
 		//P
 		for (int index = 0; index < pawn.size(); index++){
+			pawn[index].canMovePos.clear();
 			temp.x = pawn[index].pos.x;
 			if (color == 1) {
 				if (pawn[index].moveTimes == 0) {
@@ -650,6 +662,51 @@ public:
 			playerBoard[rook[i].pos.y][rook[i].pos.x] = rook[i].icon;
 		}
 
+	}
+
+	//redo
+	void reset()//升階後???
+	{
+		//初始士兵
+		pawn.clear();
+		for (int i = 0; i < 8; i++) {
+			Pawn temp(i, color);
+			pawn.push_back(temp);
+		}
+
+		//初始城堡
+		rook.clear();
+		for (int i = 0; i < 2; i++) {
+			Rook temp(i, color);
+			rook.push_back(temp);
+		}
+
+		//初始騎士
+		knight.clear();
+		for (int i = 0; i < 2; i++) {
+			Knight temp(i, color);
+			knight.push_back(temp);
+		}
+
+		//初始主教
+		bishop.clear();
+		for (int i = 0; i < 2; i++) {
+			Bishop temp(i, color);
+			bishop.push_back(temp);
+		}
+
+		//初始皇后
+		queen.clear();
+		Queen tempQ(0, color);
+		queen.push_back(tempQ);
+
+		//初始國王
+		king.clear();
+		King tempK(0, color);
+		king.push_back(tempK);
+
+		PMove = false;
+		haveEat = false;
 	}
 };
 

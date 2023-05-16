@@ -52,17 +52,4 @@ public:
 		cout << "failed to move\n";
 		return false;
 	}
-
-	//bool move(Position to) 
-	//{
-	//	int dx = pos.x - to.x, dy = pos.y - to.y;
-	//	if (abs(dx) != abs(dy)) {
-	//		cout << "failed to move\n";
-	//		return false;
-	//	}
-
-	//	return true;
-	//	//moves.insert(make_pair(x, y)); // ¾ú¥v¬ö¿ıUndo/Redo?
-	//	//moves.insert(make_pair(desX, desY));
-	//}
 };

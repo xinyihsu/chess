@@ -22,12 +22,6 @@ public:
 
 	Pawn(int index,int color) {
 		this->pos.x = index;
-		if (color == 1) {
-			this->pos.y = 0;
-		}
-		else if (color == -1) {
-			this->pos.y = 7;
-		}
 
 		if (color == 1) {
 			this->pos.y = 1;
@@ -54,33 +48,4 @@ public:
 		cout << "failed to move\n";
 		return false;
 	}
-
-	/*bool move(Position to)
-	{
-		int dx = pos.x - to.x, dy = pos.y - to.y;
-		if (dx!= 0) {
-			cout << "failed to move\n";
-			return false;
-		}
-		if (color == 1) {
-			if (moveTimes == 0 && (dy == -2 || dy == -1)) {
-				return true;
-			}
-			else if (moveTimes != 0 && dy == -1) {
-				
-				return true;
-			}
-		}
-		else {
-			if (moveTimes == 0 && (dy == 2 || dy == 1)) {
-				return true;
-			}
-			else if (moveTimes != 0 && dy == 1) {
-
-				return true;
-			}
-		}
-		cout << "failed to move\n";
-		return false;
-	}*/
 };
