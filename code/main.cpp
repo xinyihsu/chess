@@ -21,10 +21,18 @@ int main()
 	myChess.black = &black;
 	myChess.white = &white;
 	myGame.turns = -1; //白先 //可再多加玩家決定誰先
-	black.updateCanMovePos(white);
-	white.updateCanMovePos(black);
 
 	while (1) {
+		black.update();
+		white.update();
+		black.updateCanMovePos(white);
+		white.updateCanMovePos(black);
+
+		if (myGame.testIfDraw(black, white)) {
+			cout << "Draw" << endl;
+			break;
+		}
+
 		myChess.printBoard();
 
 		if (myGame.turns == 1) {
@@ -136,10 +144,23 @@ int main()
 					continue;
 				}
 
+				for (int i = 0; i < white.pawn.size(); i++) {
+					white.pawn[i].enpassant = false;
+				}
+
 				//eat
 				if (white.playerBoard[toPos.y][toPos.x] != ' ') {
 					//把白棋刪除
 					white.beEat(toPos);
+				}
+				//eat enpassant
+				else  if (chess == 'P') {
+					int dx = toPos.x - fromPos.x;
+					int dy = toPos.y - fromPos.y;
+					if (abs(dx) == 1 && abs(dy) == 1) {
+						toPos.y -= 1;
+						white.beEat(toPos);
+					}
 				}
 			}
 		}
@@ -158,10 +179,23 @@ int main()
 					continue;
 				}
 
+				for (int i = 0; i < black.pawn.size(); i++) {
+					black.pawn[i].enpassant = false;
+				}
+
 				//eat
 				if (black.playerBoard[toPos.y][toPos.x] != ' ') {
 					//把黑棋刪除
 					black.beEat(toPos);
+				}
+				//eat enpassant
+				else  if (chess == 'P') {
+					int dx = toPos.x - fromPos.x;
+					int dy = toPos.y - fromPos.y;
+					if (abs(dx) == 1 && abs(dy) == 1) {
+						toPos.y += 1;
+						black.beEat(toPos);
+					}
 				}
 			}
 		}
@@ -172,16 +206,5 @@ int main()
 		else {
 			myGame.turns = 1;
 		}
-
-		black.update();
-		white.update();
-		black.updateCanMovePos(white);
-		white.updateCanMovePos(black);
-
-		if (myGame.testIfDraw(black, white)) {
-			cout << "Draw" << endl;
-			break;
-		}
-
 	}
 }

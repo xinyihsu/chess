@@ -10,7 +10,8 @@ private:
 public:
 	char icon = 'P';
 	int color; //b.w
-	int moveTimes = 0;
+	int moveTimes = 0; //to judge if first move
+	bool enpassant = false;
 	Position pos;
 	vector<Position> canMovePos;
 	//vector<Position> moveData;//還沒存 要存嗎?

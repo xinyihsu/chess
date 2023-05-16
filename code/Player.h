@@ -196,9 +196,14 @@ public:
 			break;
 		case 'P':
 			if (pawn[index].move(toPos)) {
+				int dy = toPos.y - fromPos.y;
 				pawn[index].pos.setPosition(toPos);
 				pawn[index].moveTimes++;
 				this->PMove = true;
+
+				if (abs(dy) == 2) {
+					pawn[index].enpassant = true;
+				}
 				return true;
 			}
 			break;
@@ -207,7 +212,7 @@ public:
 		return false;
 	}
 
-	void updateCanMovePos(const Player& opponent)
+	void updateCanMovePos(Player& opponent)
 	{
 		Position temp;
 		// K
@@ -533,7 +538,7 @@ public:
 			if (playerBoard[temp.y][temp.x] == ' ' && opponent.playerBoard[temp.y][temp.x] == ' ') {
 				pawn[index].canMovePos.push_back(temp);
 
-				//first time move two units
+				//first time can move two units
 				if (pawn[index].moveTimes == 0) {
 					temp.y = color == 1 ? pawn[index].pos.y + 2 : pawn[index].pos.y - 2;
 					if (temp.y <= 7 && temp.y >= 0) {
@@ -544,21 +549,25 @@ public:
 				}
 			}
 
-			//¦Y´Ñ
+			//¦Y´Ñ & Enpassant
 			temp.y = color == 1 ? pawn[index].pos.y + 1 : pawn[index].pos.y - 1;
 			temp.x = pawn[index].pos.x + 1;
 			if (temp.x <= 7) {
-				if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+				if (opponent.playerBoard[pawn[index].pos.y][temp.x] == 'P' && opponent.pawn[index + 1].enpassant) {
 					pawn[index].canMovePos.push_back(temp);
-					//cout << color << "OK1" << endl;
+				}
+				else if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+					pawn[index].canMovePos.push_back(temp);
 				}
 			}
 
 			temp.x = pawn[index].pos.x - 1;
 			if (temp.x >= 0) {
-				if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+				if (opponent.playerBoard[pawn[index].pos.y][temp.x] == 'P' && opponent.pawn[index - 1].enpassant) {
 					pawn[index].canMovePos.push_back(temp);
-					//cout << color << "OK2" << endl;
+				}
+				else if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+					pawn[index].canMovePos.push_back(temp);
 				}
 			}
 		}
