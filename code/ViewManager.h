@@ -47,17 +47,28 @@ public:
 		
 	}
 
-	void printCanMove(char chess)
+	void printCanMove(char chess, vector<Position> print)
 	{
 		system("cls");
 		for (int i = 0; i < 8; i++) {
 			cout << 8 - i;
 			for (int j = 0; j < 8; j++) {
+
 				if ((i % 2 == 0 && j % 2 == 0) || ((i % 2 == 1 && j % 2 == 1))) {
 					cout << YELLOW_B; //¶À©³
 				}
 				else {
 					cout << BLUE_B; //ÂÅ©³
+				}
+
+				for (int k = 0; k < print.size(); k++) {
+					Position locate(j, i);
+					if (locate == print[k]) {
+						cout << RESET;
+						cout << RED_B;
+						print.erase(print.begin() + k);
+						break;
+					}
 				}
 
 				if (white->playerBoard[i][j] != ' ') {

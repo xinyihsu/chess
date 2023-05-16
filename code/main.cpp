@@ -91,6 +91,12 @@ int main()
 		}
 		cout << "You are going to move " << chess << endl; //´ú¸Õ¥Î
 
+		//print can move pos
+		vector<Position> print;
+		if (myGame.turns == 1) print = black.returnCanMovePos(chess, fromPos);
+		else print = white.returnCanMovePos(chess, fromPos);
+		myChess.printCanMove(chess, print);
+
 		Position toPos;
 		cout << "input x y (to):";
 		cin >> input;
@@ -107,7 +113,6 @@ int main()
 			continue;
 		}
 
-		//myChess.printCanMove(chess);
 		//move or eat
 		if (myGame.turns == 1) {
 			if (black.playerBoard[toPos.y][toPos.x] != ' ') {

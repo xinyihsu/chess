@@ -559,6 +559,35 @@ public:
 		}
 	}
 
+	vector<Position> returnCanMovePos(char chess, const Position& fromPos)
+	{
+		int index = findTheChess(chess, fromPos);
+		vector<Position> answer;
+
+		switch (chess) {
+		case 'K':
+			answer = king[index].canMovePos;
+			break;
+		case 'Q':
+			answer = queen[index].canMovePos;
+			break;
+		case 'R':
+			answer = rook[index].canMovePos;
+			break;
+		case 'N':
+			answer = knight[index].canMovePos;
+			break;
+		case 'B':
+			answer = bishop[index].canMovePos;
+			break;
+		case 'P':
+			answer = pawn[index].canMovePos;
+			break;
+		}
+
+		return answer;
+	}
+
 	//´Ñ¤l³Q¦Y
 	void beEat(Position chessPos)
 	{
