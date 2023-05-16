@@ -21,11 +21,19 @@ int main()
 	myChess.black = &black;
 	myChess.white = &white;
 	myGame.turns = -1; //白先 //可再多加玩家決定誰先
-	myChess.printBoard();
 	black.updateCanMovePos(white);
 	white.updateCanMovePos(black);
 
 	while (1) {
+		myChess.printBoard();
+
+		if (myGame.turns == 1) {
+			cout << "It's black turn." << endl;
+		}
+		else {
+			cout << "It's white turn." << endl;
+		}
+
 		char chess;
 		string input;
 		cout << "input x y (from):";
@@ -44,7 +52,6 @@ int main()
 			white.updateCanMovePos(black);
 
 			myGame.turns = -1; //白先 //可再多加玩家決定誰先
-			myChess.printBoard();
 
 			cout << "redo successful" << endl;
 			continue;
@@ -64,7 +71,7 @@ int main()
 			continue;
 		}
 
-		//偵測是哪一個棋子
+		//test if input valid
 		if (myGame.turns == 1) {
 			chess = black.playerBoard[fromPos.y][fromPos.x];
 			if (chess == ' ') {
@@ -95,7 +102,7 @@ int main()
 		vector<Position> print;
 		if (myGame.turns == 1) print = black.returnCanMovePos(chess, fromPos);
 		else print = white.returnCanMovePos(chess, fromPos);
-		myChess.printCanMove(chess, print);
+		myChess.printCanMove(print);
 
 		Position toPos;
 		cout << "input x y (to):";
@@ -113,10 +120,11 @@ int main()
 			continue;
 		}
 
-		//move or eat
+		//move or eat //!!!!canmovepos==0
 		if (myGame.turns == 1) {
 			if (black.playerBoard[toPos.y][toPos.x] != ' ') {
 				cout << "invalid position (位置上已經有棋子)" << endl;
+				continue;
 			}
 			else {
 				//move
@@ -164,9 +172,10 @@ int main()
 		else {
 			myGame.turns = 1;
 		}
+
 		black.update();
-		black.updateCanMovePos(white);
 		white.update();
+		black.updateCanMovePos(white);
 		white.updateCanMovePos(black);
 
 		if (myGame.testIfDraw(black, white)) {
@@ -174,13 +183,5 @@ int main()
 			break;
 		}
 
-		myChess.printBoard();
-
-		if (myGame.turns == 1) {
-			cout << "It's black turn." << endl;
-		}
-		else {
-			cout << "It's white turn." << endl;
-		}
 	}
 }

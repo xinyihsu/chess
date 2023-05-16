@@ -47,7 +47,7 @@ public:
 		
 	}
 
-	void printCanMove(char chess, vector<Position> print)
+	void printCanMove(vector<Position> print)
 	{
 		system("cls");
 		for (int i = 0; i < 8; i++) {

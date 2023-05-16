@@ -223,6 +223,7 @@ public:
 				}
 			}
 		}
+		//castle
 		if (!king[0].isMove && !king[0].isCheckMate) {
 			temp.x = king[0].pos.x + 2;
 			temp.y = king[0].pos.y;
@@ -526,34 +527,38 @@ public:
 		for (int index = 0; index < pawn.size(); index++){
 			pawn[index].canMovePos.clear();
 			temp.x = pawn[index].pos.x;
-			if (color == 1) {
+			temp.y = color == 1 ? pawn[index].pos.y + 1 : pawn[index].pos.y - 1;
+
+			if (temp.y > 7 || temp.y < 0) continue;//®¦ ¤É¶¥??
+			if (playerBoard[temp.y][temp.x] == ' ' && opponent.playerBoard[temp.y][temp.x] == ' ') {
+				pawn[index].canMovePos.push_back(temp);
+
+				//first time move two units
 				if (pawn[index].moveTimes == 0) {
-					temp.y = pawn[index].pos.y + 2;
-					if (temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-						if (playerBoard[temp.y][temp.x] == ' ') {
+					temp.y = color == 1 ? pawn[index].pos.y + 2 : pawn[index].pos.y - 2;
+					if (temp.y <= 7 && temp.y >= 0) {
+						if (playerBoard[temp.y][temp.x] == ' ' && opponent.playerBoard[temp.y][temp.x] == ' ') {
 							pawn[index].canMovePos.push_back(temp);
 						}
 					}
-				}
-				temp.y = pawn[index].pos.y + 1;
-				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
-				if (playerBoard[temp.y][temp.x] == ' ') {
-					pawn[index].canMovePos.push_back(temp);
 				}
 			}
-			else {
-				if (pawn[index].moveTimes == 0) {
-					temp.y = pawn[index].pos.y - 2;
-					if (temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-						if (playerBoard[temp.y][temp.x] == ' ') {
-							pawn[index].canMovePos.push_back(temp);
-						}
-					}
-				}
-				temp.y = pawn[index].pos.y - 1;
-				if (temp.x > 7 || temp.x < 0 || temp.y > 7 || temp.y < 0) break;
-				if (playerBoard[temp.y][temp.x] == ' ') {
+
+			//¦Y´Ñ
+			temp.y = color == 1 ? pawn[index].pos.y + 1 : pawn[index].pos.y - 1;
+			temp.x = pawn[index].pos.x + 1;
+			if (temp.x <= 7) {
+				if (opponent.playerBoard[temp.y][temp.x] != ' ') {
 					pawn[index].canMovePos.push_back(temp);
+					//cout << color << "OK1" << endl;
+				}
+			}
+
+			temp.x = pawn[index].pos.x - 1;
+			if (temp.x >= 0) {
+				if (opponent.playerBoard[temp.y][temp.x] != ' ') {
+					pawn[index].canMovePos.push_back(temp);
+					//cout << color << "OK2" << endl;
 				}
 			}
 		}
