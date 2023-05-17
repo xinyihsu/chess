@@ -22,45 +22,66 @@ int main()
 {
 	myChess.black = &black;
 	myChess.white = &white;
-	myGame.turns = -1; //白先 //可再多加玩家決定誰先
+	//myGame.turns = -1; //白先 //可再多加玩家決定誰先
+	myGame.menu();
+	black.update();
+	white.update();
+	black.updateCanMovePos(white);
+	white.updateCanMovePos(black);
+	
+	Player tmpB(1);
+	Player tmpW(1);
 
 	while (1) {
-		black.update();
-		white.update();
-		black.updateCanMovePos(white);
-		white.updateCanMovePos(black);
-
 		myGame.checkKing = checkMate(myGame.turns, black, white);
-
+		//test if checkMate
 		if (myGame.checkKing == 0) {
-			cout << "you dead" << endl;
+			if (myGame.turns == 1) {
+				cout << "black dead" << endl;
+			}
+			else {
+				cout << "white dead" << endl;
+			}
 			break;
 		}
 		else if (myGame.checkKing == 1) {
 			cout << "King gonna dead!!Save him!!" << endl;
-			cout << "Only move King!" << endl; //防呆???
+			cout << "Only move King!" << endl; //防呆
 		}
 
-		if (myGame.testIfDraw(black, white)) {//未測試過
-			cout << "Draw" << endl;
-			break;
+		//test if draw
+		if (myGame.turns == 1) {
+			if (myGame.testIfDraw(black, white)) {//未測試過
+				cout << "Draw" << endl;
+				break;
+			}
+		}
+		else {
+			if (myGame.testIfDraw(white, black)) {//未測試過
+				cout << "Draw" << endl;
+				break;
+			}
 		}
 
 		myChess.printBoard();
 
-		if (myGame.turns == 1) {
-			cout << "It's black turn." << endl;
-		}
-		else {
-			cout << "It's white turn." << endl;
-		}
+		if (myGame.turns == 1) cout << "It's black turn." << endl;
+		else cout << "It's white turn." << endl;
 
 		char chess;
 		string input;
 		cout << "input x y (from):";
 		cin >> input;
 
-		//redo
+		if (input == "FEN") {
+			getline(cin, input);
+			int i = myChess.readFEN(input);
+			if (i != 0) myGame.turns = i;
+			system("cls");
+			cout << "FEN success" << endl;
+			continue;
+		}
+		//restart
 		if (input == "restart")
 		{
 			black.reset();
@@ -76,6 +97,25 @@ int main()
 
 			system("cls");
 			cout << "restart successful" << endl;
+			continue;
+		}
+		if (input == "undo") {
+			if (myGame.turns == 1) {
+				myGame.turns = -1;
+				white = tmpW;
+				black = tmpB;
+			}
+			else {
+				myGame.turns = 1;
+				white = tmpW;
+				black = tmpB;
+			}
+			black.update();
+			white.update();
+			black.updateCanMovePos(white);
+			white.updateCanMovePos(black);
+			system("cls");
+			cout << "undo success" << endl;
 			continue;
 		}
 
@@ -167,23 +207,42 @@ int main()
 			continue;
 		}
 
-		if (!moveChess(chess, fromPos, toPos)) continue;
+		//存檔
+		tmpB = black;
+		tmpW = white;
+		tmpW = white;
+		tmpW = white;
+		tmpW = white;
+
+		if (!moveChess(chess, fromPos, toPos)) {
+			system("cls");
+			cout << "move invalid" << endl;
+			continue;
+		}
 		
 		if (myGame.turns == -1) {
 			if (toPos.y == 0 && chess == 'P') {
 				white.promoting(toPos);
 			}
-
-			myGame.turns = 1;
 		}
 		else {
 			if (toPos.y == 7 && chess == 'P') {
 				black.promoting(toPos);
 			}
-
-			myGame.turns = -1;
 		}
+
+		black.update();
+		white.update();
+		black.updateCanMovePos(white);
+		white.updateCanMovePos(black);
+
+		//換人
+		if (myGame.turns == 1) myGame.turns = -1;
+		else myGame.turns = 1;
+
 	}
+
+
 }
 
 bool moveChess(const char& chess, const Position& fromPos, Position toPos)

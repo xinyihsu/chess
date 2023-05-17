@@ -155,13 +155,25 @@ public:
 				king[index].pos.setPosition(toPos);
 				if (dy == 0) {
 					//路中無棋子(updateCanMove)
+					int index;
+					
 					if (dx == 2) {
-						rook[1].pos.setPosition(toPos.x - 1, toPos.y);
-						rook[1].isMove = true;
+						for (index = 0; index < rook.size(); index++) {
+							if (rook[index].pos.x == 7) {
+								break;
+							}
+						}
+						rook[index].pos.setPosition(toPos.x - 1, toPos.y);
+						rook[index].isMove = true;
 					}
 					else if(dx == -2){
-						rook[0].pos.setPosition(toPos.x + 1, toPos.y);
-						rook[0].isMove = true;
+						for (index = 0; index < rook.size(); index++) {
+							if (rook[index].pos.x == 0) {
+								break;
+							}
+						}
+						rook[index].pos.setPosition(toPos.x + 1, toPos.y);
+						rook[index].isMove = true;
 					}
 				}
 				king[0].isMove = true;
@@ -227,10 +239,17 @@ public:
 				}
 			}
 		}
+
 		//castle
 		if (!king[0].isMove) {
 			temp.y = king[0].pos.y;
-			if (!rook[1].isMove) {
+			int index;
+			for (index = 0; index < rook.size(); index++) {
+				if (rook[index].pos.x == 7) {
+					break;
+				}
+			}
+			if (!rook[index].isMove) {
 				bool canCastle = true;
 				temp.x = king[0].pos.x + 2;
 				for (int i = king[0].pos.x + 1; i < 7; i++) {
@@ -241,7 +260,13 @@ public:
 				}
 				if (canCastle) king[0].canMovePos.push_back(temp);
 			}
-			if (!rook[0].isMove) {
+
+			for (index = 0; index < rook.size(); index++) {
+				if (rook[index].pos.x == 0) {
+					break;
+				}
+			}
+			if (!rook[index].isMove) {
 				bool canCastle = true;
 				temp.x = king[0].pos.x - 2;
 				for (int i = king[0].pos.x - 1; i >= 1; i--) {
@@ -617,26 +642,27 @@ public:
 		cout << "choose Q or B or N or R" << '\n';
 		while (cin >> symbol) {
 			if (symbol == 'Q') {
-				Queen temp;
+				Queen temp(0, color);
 				temp.pos.setPosition(toPos);
 				queen.push_back(temp);
 				break;
 			}
 			else if (symbol == 'B') {
-				Bishop temp;
+				Bishop temp(0, color);
 				temp.pos.setPosition(toPos);
 				bishop.push_back(temp);
 				break;
 			}
 			else if (symbol == 'N') {
-				Knight temp;
+				Knight temp(0, color);
 				temp.pos.setPosition(toPos);
 				knight.push_back(temp);
 				break;
 			}
 			else if (symbol == 'R') {
-				Rook temp;
+				Rook temp(0, color);
 				temp.pos.setPosition(toPos);
+				temp.isMove = true;
 				rook.push_back(temp);
 				break;
 			}
