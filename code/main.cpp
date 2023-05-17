@@ -30,18 +30,18 @@ int main()
 		black.updateCanMovePos(white);
 		white.updateCanMovePos(black);
 
-		int checkKing = checkMate(myGame.turns, black, white);
+		myGame.checkKing = checkMate(myGame.turns, black, white);
 
-		if (checkKing == 0) {
+		if (myGame.checkKing == 0) {
 			cout << "you dead" << endl;
 			break;
 		}
-		else if (checkKing == 1) {
+		else if (myGame.checkKing == 1) {
 			cout << "King gonna dead!!Save him!!" << endl;
-			cout << "Only move King!" << endl;
+			cout << "Only move King!" << endl; //防呆???
 		}
 
-		if (myGame.testIfDraw(black, white)) {
+		if (myGame.testIfDraw(black, white)) {//未測試過
 			cout << "Draw" << endl;
 			break;
 		}
@@ -74,11 +74,13 @@ int main()
 
 			myGame.turns = -1; //白先 //可再多加玩家決定誰先
 
+			system("cls");
 			cout << "restart successful" << endl;
 			continue;
 		}
 
-		if (input.size() != 2 || !isalpha(input[0]) || !isdigit(input[1])) {
+		else if (input.size() != 2 || !isalpha(input[0]) || !isdigit(input[1])) {
+			system("cls");
 			cout << "invalid input" << endl;
 			continue;
 		}
@@ -88,6 +90,7 @@ int main()
 		fromPos.y = 7 - (input[1] - '1');
 
 		if (fromPos.x > 7 || fromPos.x < 0 || fromPos.y > 7 || fromPos.y < 0) {
+			system("cls");
 			cout << "invalid position(out of board)" << endl;
 			continue;
 		}
@@ -96,6 +99,7 @@ int main()
 		if (myGame.turns == 1) {
 			chess = black.playerBoard[fromPos.y][fromPos.x];
 			if (chess == ' ') {
+				system("cls");
 				if (white.playerBoard[fromPos.y][fromPos.x] != ' ') {
 					cout << "invalid position(it's black turn)" << endl;
 				}
@@ -108,6 +112,7 @@ int main()
 		else if (myGame.turns == -1) {
 			chess = white.playerBoard[fromPos.y][fromPos.x];
 			if (chess == ' ') {
+				system("cls");
 				if (black.playerBoard[fromPos.y][fromPos.x] != ' ') {
 					cout << "invalid position(it's white turn)" << endl;
 				}
@@ -117,37 +122,66 @@ int main()
 				continue;
 			}
 		}
-		cout << "You are going to move " << chess << endl; //測試用
+
+		if (myGame.checkKing == 1 && chess != 'K') {
+			system("cls");
+			cout << "you can only move king." << endl;
+			return false;
+		}
 
 		//print can move pos
 		vector<Position> print;
 		if (myGame.turns == 1) print = black.returnCanMovePos(chess, fromPos);
 		else print = white.returnCanMovePos(chess, fromPos);
+		system("cls");
 		myChess.printCanMove(print);
+		cout << "You are going to move " << chess << endl; //測試用
 
-		Position toPos;
 		cout << "input x y (to):";
 		cin >> input;
+
+		if (input == "no") {
+			system("cls");
+			cout << "again" << endl;
+			continue;
+		}
+		else if (input.size() != 2 || !isalpha(input[0]) || !isdigit(input[1])) {
+			system("cls");
+			cout << "invalid input" << endl;
+			continue;
+		}
+		
+		Position toPos;
 		toPos.x = input[0] - 'a';
 		toPos.y = 7 - (input[1] - '1');
-
+		
 		if (toPos.x > 7 || toPos.x < 0 || toPos.y > 7 || toPos.y < 0) {
-			cout << "invalid position(out of board)" << endl;
+			system("cls");
+			cout << "invalid toPos(out of board)" << endl;
 			continue;
 		}
 
 		if (fromPos == toPos) {
+			system("cls");
 			cout << "invalid position(重複)" << endl;
 			continue;
 		}
 
-		moveChess(chess, fromPos, toPos);
+		if (!moveChess(chess, fromPos, toPos)) continue;
 		
-		if (myGame.turns == 1) {
-			myGame.turns = -1;
+		if (myGame.turns == -1) {
+			if (toPos.y == 0 && chess == 'P') {
+				white.promoting(toPos);
+			}
+
+			myGame.turns = 1;
 		}
 		else {
-			myGame.turns = 1;
+			if (toPos.y == 7 && chess == 'P') {
+				black.promoting(toPos);
+			}
+
+			myGame.turns = -1;
 		}
 	}
 }
@@ -157,15 +191,18 @@ bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 	//move or eat //!!!!canmovepos==0
 	if (myGame.turns == 1) {
 		if (black.playerBoard[toPos.y][toPos.x] != ' ') {
+			system("cls");
 			cout << "invalid position (位置上已經有棋子)" << endl;
 			return false;
 		}
 		else {
 			//move
 			if (black.move(chess, fromPos, toPos)) {
-				cout << "成功" << endl;
+				system("cls");
+				cout << "success!" << endl;
 			}
 			else {
+				system("cls");
 				cout << "invalid move way" << endl;
 				return false;
 			}
@@ -192,15 +229,18 @@ bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 	}
 	else if (myGame.turns == -1) {
 		if (white.playerBoard[toPos.y][toPos.x] != ' ') {
+			system("cls");
 			cout << "invalid position (位置上已經有棋子)" << endl;
 			return false;
 		}
 		else {
 			//move
 			if (white.move(chess, fromPos, toPos)) {
-				cout << "成功" << endl;
+				system("cls");
+				cout << "success" << endl;
 			}
 			else {
+				system("cls");
 				cout << "invalid move way" << endl;
 				return false;
 			}

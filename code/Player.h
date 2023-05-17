@@ -150,7 +150,6 @@ public:
 		switch (chess) {
 		case 'K':
 			if (king[index].move(toPos)) {
-				//不能自殺
 				int dx = toPos.x - king[index].pos.x;
 				int dy = toPos.y - king[index].pos.y;
 				king[index].pos.setPosition(toPos);
@@ -222,26 +221,36 @@ public:
 				temp.x = king[0].pos.x + i;
 				temp.y = king[0].pos.y + j;
 				if (temp.x <= 7 && temp.x >= 0 && temp.y <= 7 && temp.y >= 0) {
-					if (playerBoard[temp.y][temp.x] == ' ') {
+					if (playerBoard[temp.y][temp.x] == ' ' && opponent.playerBoard[temp.y][temp.x] == ' ') {
 						king[0].canMovePos.push_back(temp);
 					}
 				}
 			}
 		}
 		//castle
-		if (!king[0].isMove && !king[0].isCheckMate) {
-			temp.x = king[0].pos.x + 2;
+		if (!king[0].isMove) {
 			temp.y = king[0].pos.y;
-			for (int i = king[0].pos.x + 1; i < 7; i++) {
-				if (this->playerBoard[king[0].pos.y][i] == ' ' && opponent.playerBoard[king[0].pos.y][i] == ' ') {
-					king[0].canMovePos.push_back(temp);
+			if (!rook[1].isMove) {
+				bool canCastle = true;
+				temp.x = king[0].pos.x + 2;
+				for (int i = king[0].pos.x + 1; i < 7; i++) {
+					if (this->playerBoard[temp.y][i] != ' ' || opponent.playerBoard[temp.y][i] != ' ') {
+						canCastle = false;
+						break;
+					}
 				}
+				if (canCastle) king[0].canMovePos.push_back(temp);
 			}
-			temp.x = king[0].pos.x - 2;
-			for (int i = king[0].pos.x - 1; i >= 1; i--) {
-				if (this->playerBoard[king[0].pos.y][i] == ' ' && opponent.playerBoard[king[0].pos.y][i] == ' ') {
-					king[0].canMovePos.push_back(temp);
+			if (!rook[0].isMove) {
+				bool canCastle = true;
+				temp.x = king[0].pos.x - 2;
+				for (int i = king[0].pos.x - 1; i >= 1; i--) {
+					if (this->playerBoard[temp.y][i] != ' ' || opponent.playerBoard[temp.y][i] != ' ') {
+						canCastle = false;
+						break;
+					}
 				}
+				if(canCastle) king[0].canMovePos.push_back(temp);
 			}
 		}
 		
@@ -600,6 +609,50 @@ public:
 		}
 
 		return answer;
+	}
+
+	void promoting(const Position& toPos)
+	{
+		char symbol;
+		cout << "choose Q or B or N or R" << '\n';
+		while (cin >> symbol) {
+			if (symbol == 'Q') {
+				Queen temp;
+				temp.pos.setPosition(toPos);
+				queen.push_back(temp);
+				break;
+			}
+			else if (symbol == 'B') {
+				Bishop temp;
+				temp.pos.setPosition(toPos);
+				bishop.push_back(temp);
+				break;
+			}
+			else if (symbol == 'N') {
+				Knight temp;
+				temp.pos.setPosition(toPos);
+				knight.push_back(temp);
+				break;
+			}
+			else if (symbol == 'R') {
+				Rook temp;
+				temp.pos.setPosition(toPos);
+				rook.push_back(temp);
+				break;
+			}
+
+			else cout << "input error. Please choose again : ";
+		}
+
+		//delete the promotion pawn
+		for (int i = 0; i < pawn.size(); i++) {
+			if (pawn[i].pos.x == toPos.x && pawn[i].pos.y == toPos.y) {
+				pawn.erase(pawn.begin() + i);
+				break;
+			}
+		}
+		system("cls");
+		cout << "you choose to promotion to " << symbol << '\n';
 	}
 
 	//棋子被吃

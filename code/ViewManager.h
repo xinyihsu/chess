@@ -18,7 +18,7 @@ public:
 
 	void printBoard()
 	{
-		system("cls");
+		//system("cls");
 		for (int i = 0; i < 8; i++) {
 			cout << 8 - i;
 			for (int j = 0; j < 8; j++) {
@@ -49,7 +49,7 @@ public:
 
 	void printCanMove(vector<Position> print)
 	{
-		system("cls");
+		//system("cls");
 		for (int i = 0; i < 8; i++) {
 			cout << 8 - i;
 			for (int j = 0; j < 8; j++) {

@@ -15,6 +15,7 @@ class GameManager
 private:
 public:
 	int turns; //½ü¨ì½Ö
+	int checkKing;
 	int countMove = 0;
 
 	bool testIfDraw(Player& black, Player& white)
