@@ -8,7 +8,7 @@
 #include "Pawn.h" //兵
 #include <vector>
 
-//管理棋子
+//manage chess
 class Player
 {
 private:
@@ -21,14 +21,17 @@ public:
 	vector<Knight> knight;
 	vector<Pawn> pawn;
 	char** playerBoard;
-	bool PMove = false;
-	bool haveEat = false;
+	bool PMove = false; //if pawn move success
+	bool haveEat = false; //if have eat chess
 
-	
-	//init chess
+
+	/**
+	 * Intent: init chess
+	 * Pre: color(who first)
+	 */
 	Player(int turn)
 	{
-		//初始玩家自己棋盤
+		//init playboard
 		color = turn;
 		playerBoard = new char* [8];
 		for (int i = 0; i < 8; i++)
@@ -40,99 +43,93 @@ public:
 			}
 		}
 
-		//初始士兵
-		for (int i = 0; i < 8; i++)	{
+		//init pawn
+		for (int i = 0; i < 8; i++) {
 			Pawn temp(i, turn);
 			playerBoard[temp.pos.y][temp.pos.x] = temp.icon;
 			pawn.push_back(temp);
 		}
 
-		//初始城堡
+		//init R
 		for (int i = 0; i < 2; i++) {
-			Rook temp(i,turn);
+			Rook temp(i, turn);
 			playerBoard[temp.pos.y][temp.pos.x] = temp.icon;
 			rook.push_back(temp);
 		}
 
-		//初始騎士
+		//init N
 		for (int i = 0; i < 2; i++) {
 			Knight temp(i, turn);
 			playerBoard[temp.pos.y][temp.pos.x] = temp.icon;
 			knight.push_back(temp);
 		}
 
-		//初始主教
+		//init B
 		for (int i = 0; i < 2; i++) {
 			Bishop temp(i, turn);
 			playerBoard[temp.pos.y][temp.pos.x] = temp.icon;
 			bishop.push_back(temp);
 		}
 
-		//初始皇后
+		//init Q
 		Queen tempQ(0, turn);
 		playerBoard[tempQ.pos.y][tempQ.pos.x] = tempQ.icon;
 		queen.push_back(tempQ);
 
-		//初始國王
+		//init K
 		King tempK(0, turn);
 		playerBoard[tempK.pos.y][tempK.pos.x] = tempK.icon;
 		king.push_back(tempK);
 	}
 
+	/**
+	 * Intent: find the index of chess
+	 * Pre: the chess and its position (from)
+	 * Post: index
+	 */
 	int findTheChess(char chess, Position fromPos)
 	{
 		int index = 0;
 		//find the chess
-		switch (chess)
-		{
+		switch (chess) {
 		case 'K':
 			index = 0;
 			break;
 		case 'Q':
-			for (int i = 0; i < queen.size(); i++)
-			{
-				if (queen[i].pos == fromPos)
-				{
+			for (int i = 0; i < queen.size(); i++) {
+				if (queen[i].pos == fromPos) {
 					index = i;
 					break;
 				}
 			}
 			break;
 		case 'R':
-			for (int i = 0; i < rook.size(); i++)
-			{
-				if (rook[i].pos == fromPos)
-				{
+			for (int i = 0; i < rook.size(); i++) {
+				if (rook[i].pos == fromPos) {
 					index = i;
 					break;
 				}
 			}
 			break;
 		case 'N':
-			for (int i = 0; i < knight.size(); i++)
-			{
-				if (knight[i].pos == fromPos)
-				{
+			for (int i = 0; i < knight.size(); i++) {
+				if (knight[i].pos == fromPos) {
 					index = i;
 					break;
 				}
 			}
 			break;
 		case 'B':
-			for (int i = 0; i < bishop.size(); i++)
-			{
-				if (bishop[i].pos == fromPos)
-				{
+			for (int i = 0; i < bishop.size(); i++) {
+				if (bishop[i].pos == fromPos) {
 					index = i;
 					break;
 				}
 			}
 			break;
 		case 'P':
-			for (int i = 0; i < pawn.size(); i++)
-			{
-				if (pawn[i].pos == fromPos)
-				{
+			for (int i = 0; i < pawn.size(); i++) {
+				if (pawn[i].pos == fromPos) {
 					index = i;
 					break;
 				}
@@ -143,6 +140,11 @@ public:
 		return index;
 	}
 
+	/**
+	 * Intent: if the chess move success
+	 * Pre: the chess and its position (from and to)
+	 * Post: boolean
+	 */
 	bool move(char chess, Position fromPos, Position toPos)
 	{
 		int index = findTheChess(chess, fromPos);
@@ -153,10 +155,11 @@ public:
 				int dx = toPos.x - king[index].pos.x;
 				int dy = toPos.y - king[index].pos.y;
 				king[index].pos.setPosition(toPos);
+
+				//castle
 				if (dy == 0) {
-					//路中無棋子(updateCanMove)
 					int index;
-					
+
 					if (dx == 2) {
 						for (index = 0; index < rook.size(); index++) {
 							if (rook[index].pos.x == 7) {
@@ -166,7 +169,7 @@ public:
 						rook[index].pos.setPosition(toPos.x - 1, toPos.y);
 						rook[index].isMove = true;
 					}
-					else if(dx == -2){
+					else if (dx == -2) {
 						for (index = 0; index < rook.size(); index++) {
 							if (rook[index].pos.x == 0) {
 								break;
@@ -223,6 +226,11 @@ public:
 		return false;
 	}
 
+	/**
+	 * Intent: update can move pos
+	 * Pre: the opponent player
+	 * Post: void
+	 */
 	void updateCanMovePos(Player& opponent)
 	{
 		Position temp;
@@ -275,10 +283,10 @@ public:
 						break;
 					}
 				}
-				if(canCastle) king[0].canMovePos.push_back(temp);
+				if (canCastle) king[0].canMovePos.push_back(temp);
 			}
 		}
-		
+
 		//Q
 		for (int index = 0; index < queen.size(); index++) {
 			queen[index].canMovePos.clear();
@@ -480,7 +488,7 @@ public:
 				}
 			}
 		}
-		
+
 		//N
 		for (int index = 0; index < knight.size(); index++) {
 			knight[index].canMovePos.clear();
@@ -493,7 +501,7 @@ public:
 				}
 			}
 		}
-		
+
 		//B
 		for (int index = 0; index < bishop.size(); index++) {
 			bishop[index].canMovePos.clear();
@@ -561,14 +569,13 @@ public:
 				}
 			}
 		}
-		
+
 		//P
-		for (int index = 0; index < pawn.size(); index++){
+		for (int index = 0; index < pawn.size(); index++) {
 			pawn[index].canMovePos.clear();
 			temp.x = pawn[index].pos.x;
 			temp.y = color == 1 ? pawn[index].pos.y + 1 : pawn[index].pos.y - 1;
-
-			if (temp.y > 7 || temp.y < 0) continue;//恩 升階??
+			if (temp.y > 7 || temp.y < 0) continue;
 			if (playerBoard[temp.y][temp.x] == ' ' && opponent.playerBoard[temp.y][temp.x] == ' ') {
 				pawn[index].canMovePos.push_back(temp);
 
@@ -583,11 +590,18 @@ public:
 				}
 			}
 
-			//吃棋 & Enpassant
+			//eat chessman & Enpassant
 			temp.y = color == 1 ? pawn[index].pos.y + 1 : pawn[index].pos.y - 1;
+			//right
 			temp.x = pawn[index].pos.x + 1;
 			if (temp.x <= 7) {
-				if (opponent.playerBoard[pawn[index].pos.y][temp.x] == 'P' && opponent.pawn[index + 1].enpassant) {
+				int opponentP = 0;
+				for (opponentP = 0; opponentP < opponent.pawn.size(); opponentP++) {
+					if (opponent.pawn[opponentP].pos.x == temp.x) {
+						break;
+					}
+				}
+				if (opponent.playerBoard[pawn[index].pos.y][temp.x] == 'P' && opponent.pawn[opponentP].enpassant) {
 					pawn[index].canMovePos.push_back(temp);
 				}
 				else if (opponent.playerBoard[temp.y][temp.x] != ' ') {
@@ -595,9 +609,16 @@ public:
 				}
 			}
 
+			//left
 			temp.x = pawn[index].pos.x - 1;
 			if (temp.x >= 0) {
-				if (opponent.playerBoard[pawn[index].pos.y][temp.x] == 'P' && opponent.pawn[index - 1].enpassant) {
+				int opponentP = 0;
+				for (opponentP = 0; opponentP < opponent.pawn.size(); opponentP++) {
+					if (opponent.pawn[opponentP].pos.x == temp.x) {
+						break;
+					}
+				}
+				if (opponent.playerBoard[pawn[index].pos.y][temp.x] == 'P' && opponent.pawn[opponentP].enpassant) {
 					pawn[index].canMovePos.push_back(temp);
 				}
 				else if (opponent.playerBoard[temp.y][temp.x] != ' ') {
@@ -607,6 +628,11 @@ public:
 		}
 	}
 
+	/**
+	 * Intent: return can move pos (print canMovePos playerboard)
+	 * Pre: the chess and its position (from)
+	 * Post: position vector
+	 */
 	vector<Position> returnCanMovePos(char chess, const Position& fromPos)
 	{
 		int index = findTheChess(chess, fromPos);
@@ -636,6 +662,11 @@ public:
 		return answer;
 	}
 
+	/**
+	 * Intent: pawn promoting
+	 * Pre: the chess position (to)
+	 * Post: void
+	 */
 	void promoting(const Position& toPos)
 	{
 		char symbol;
@@ -681,65 +712,57 @@ public:
 		cout << "you choose to promotion to " << symbol << '\n';
 	}
 
-	//棋子被吃
+	/**
+	 * Intent: eat chessman
+	 * Pre: the chess  position (to)
+	 * Post: void
+	 */
 	void beEat(Position chessPos)
 	{
 		this->haveEat = true;
 		char theChess = playerBoard[chessPos.y][chessPos.x];
 		//find the chess
 		int i;
-		switch (theChess)
-		{
+		switch (theChess) {
 		case 'K':
-			cout << "you lose" << endl;
-			//delete king
 			//lose？！！！
+			cout << "you lose" << endl;
 			break;
 		case 'Q':
-			for (i = 0; i < queen.size(); i++)
-			{
-				if (queen[i].pos == chessPos)
-				{
+			for (i = 0; i < queen.size(); i++) {
+				if (queen[i].pos == chessPos) {
 					break;
 				}
 			}
 			queen.erase(queen.begin() + i);
 			break;
 		case 'R':
-			for (i = 0; i < rook.size(); i++)
-			{
-				if (rook[i].pos == chessPos)
-				{
+			for (i = 0; i < rook.size(); i++) {
+				if (rook[i].pos == chessPos) {
 					break;
 				}
 			}
 			rook.erase(rook.begin() + i);
 			break;
 		case 'N':
-			for (i = 0; i < knight.size(); i++)
-			{
-				if (knight[i].pos == chessPos)
-				{
+			for (i = 0; i < knight.size(); i++) {
+				if (knight[i].pos == chessPos) {
 					break;
 				}
 			}
 			knight.erase(knight.begin() + i);
 			break;
 		case 'B':
-			for (i = 0; i < bishop.size(); i++)
-			{
-				if (bishop[i].pos == chessPos)
-				{
+			for (i = 0; i < bishop.size(); i++) {
+				if (bishop[i].pos == chessPos) {
 					break;
 				}
 			}
 			bishop.erase(bishop.begin() + i);
 			break;
 		case 'P':
-			for (i = 0; i < pawn.size(); i++)
-			{
-				if (pawn[i].pos == chessPos)
-				{
+			for (i = 0; i < pawn.size(); i++) {
+				if (pawn[i].pos == chessPos) {
 					break;
 				}
 			}
@@ -748,8 +771,12 @@ public:
 		}
 	}
 
-	//update playboard
-	void update() {
+	/**
+	 * Intent: update playboard
+	 * Pre: void
+	 * Post: void
+	 */
+	void update(void) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				playerBoard[i][j] = ' ';
@@ -786,43 +813,47 @@ public:
 
 	}
 
-	//redo
-	void reset()//升階後???
+	/**
+	 * Intent: reset the chessman (after promoting)
+	 * Pre: void
+	 * Post: void
+	 */
+	void reset(void)
 	{
-		//初始士兵
+		//P
 		pawn.clear();
 		for (int i = 0; i < 8; i++) {
 			Pawn temp(i, color);
 			pawn.push_back(temp);
 		}
 
-		//初始城堡
+		//R
 		rook.clear();
 		for (int i = 0; i < 2; i++) {
 			Rook temp(i, color);
 			rook.push_back(temp);
 		}
 
-		//初始騎士
+		//N
 		knight.clear();
 		for (int i = 0; i < 2; i++) {
 			Knight temp(i, color);
 			knight.push_back(temp);
 		}
 
-		//初始主教
+		//B
 		bishop.clear();
 		for (int i = 0; i < 2; i++) {
 			Bishop temp(i, color);
 			bishop.push_back(temp);
 		}
 
-		//初始皇后
+		//Q
 		queen.clear();
 		Queen tempQ(0, color);
 		queen.push_back(tempQ);
 
-		//初始國王
+		//K
 		king.clear();
 		King tempK(0, color);
 		king.push_back(tempK);

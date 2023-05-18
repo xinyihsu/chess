@@ -16,6 +16,7 @@ public:
 		this->pos.y = 0;
 	}
 
+	//init
 	King(int index, int color) {
 		this->pos.x = 4;
 		if (color == 1) {
@@ -28,10 +29,12 @@ public:
 		this->color = color;
 	}
 
+	//init
 	King(Position thePos) {
 		this->pos = thePos;
 	}
 
+	//move the chessman
 	bool move(Position to)
 	{
 		for (int i = 0; i < canMovePos.size(); i++) {

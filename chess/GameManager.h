@@ -10,7 +10,7 @@ enum EndStatus {
 	SURRENDER, //認輸
 };
 
-//處理遊戲狀態
+/** control game status */
 class GameManager
 {
 private:
@@ -19,11 +19,18 @@ public:
 	int checkKing;
 	int countMove = 0;
 
-	void menu() {
+	/**
+	 * Intent: determine who first
+	 * Pre: void
+	 * Post: void
+	 */
+	void menu(void) {
 		int input = 0;
 		cout << "Choose the game style: (1) normal (white first), (2) black first\n";
+		//end until input valid
 		while (input != 1 || input != 2) {
 			cin >> input;
+
 			if (input == 1) {
 				turns = -1;
 				break;
@@ -37,10 +44,47 @@ public:
 			}
 		}
 
+		//choose music
+		input = 0;
+		cout << "Choose the music: \n(1) Croatian_Rhapsody\n(2) happy song\n(3) cry_yourmom_dead\n(4) Sonata\n(5) Volume_Warning(guodong)\n";
+		//end until input valid
+		while (input != 1 || input != 2 || input != 3 || input != 4 || input != 5) {
+			cin >> input;
+
+			if (input == 1) {
+				PlaySound(TEXT("./music/Croatian_Rhapsody.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+				break;
+			}
+			else if (input == 2) {
+				PlaySound(TEXT("./music/backround_music.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+				break;
+			}
+			else if (input == 3) {
+				PlaySound(TEXT("./music/cry_yourmom_dead.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+				break;
+			}
+			else if (input == 4) {
+				PlaySound(TEXT("./music/Sonata.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+				break;
+			}
+			else if (input == 5) {
+				PlaySound(TEXT("./music/Volume_Warning.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+				break;
+			}
+			else {
+				cout << "invalid input\n";
+			}
+		}
+
 		system("cls");
 		return;
 	}
 
+	/**
+	 * Intent: test if draw
+	 * Pre: two player
+	 * Post: boolean
+	 */
 	bool testIfDraw(Player& my, Player& opponent)
 	{
 		countMove++;
@@ -51,55 +95,52 @@ public:
 			opponent.PMove = false;
 			opponent.haveEat = false;
 		}
-		/**逼和*************************************************/
+		/**Stalemate*************************************************/
 		bool ifCanNotMove = true;
-		//king
-		//if (thePlayer.king[0].canMovePos.size()==0)
-		//將死???
-		
+
 		//queen
-		for (int i = 0; i < my.queen.size(); i++){//white?????
-			if (my.queen[i].canMovePos.size() != 0){
+		for (int i = 0; i < my.queen.size(); i++) {
+			if (my.queen[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
 
 		//rook
-		for (int i = 0; i < my.rook.size(); i++){
+		for (int i = 0; i < my.rook.size(); i++) {
 			if (my.rook[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
 
 		//knight
-		for (int i = 0; i < my.knight.size(); i++)	{
+		for (int i = 0; i < my.knight.size(); i++) {
 			if (my.knight[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
 
 		//bishop
-		for (int i = 0; i < my.bishop.size(); i++){
+		for (int i = 0; i < my.bishop.size(); i++) {
 			if (my.bishop[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
 
 		//pawn
-		for (int i = 0; i < my.pawn.size(); i++){
+		for (int i = 0; i < my.pawn.size(); i++) {
 			if (my.pawn[i].canMovePos.size() != 0) {
 				ifCanNotMove = false;
 			}
 		}
-	
+
 		if (ifCanNotMove) {
 			return true;
 		}
-		/**50步*************************************************/
-		if (!my.PMove && !my.haveEat && countMove >=50) {
+		/**50 steps*************************************************/
+		if (!my.PMove && !my.haveEat && countMove >= 50) {
 			return true;
 		}
-		/**不可能將死*******************************************/
+		/**chess is not enough to checkMate*******************************************/
 		bool ifCanCheckMate = false;
 		if (my.pawn.size() == 0 && my.queen.size() == 0 && my.rook.size() == 0 && opponent.pawn.size() == 0 && opponent.queen.size() == 0 && opponent.rook.size() == 0) {
 			//king&bishop vs king&bishop (bishops are in the same color)

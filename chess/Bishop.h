@@ -11,13 +11,14 @@ public:
 	Position pos;
 	vector<Position> canMovePos;
 
-	Bishop() 
+	Bishop()
 	{
 		this->pos.x = 0;
 		this->pos.y = 0;
 	}
 
-	Bishop(int index, int color) 
+	//init
+	Bishop(int index, int color)
 	{
 		if (index == 0) {
 			this->pos.x = 2;
@@ -36,11 +37,14 @@ public:
 		this->color = color;
 	}
 
-	Bishop(Position thePos) 
+
+	//init
+	Bishop(Position thePos)
 	{
 		this->pos = thePos;
 	}
 
+	//move the chessman
 	bool move(Position to)
 	{
 		for (int i = 0; i < canMovePos.size(); i++) {

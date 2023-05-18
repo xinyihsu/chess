@@ -11,12 +11,13 @@ public:
 	bool isMove = false;
 	Position pos;
 	vector<Position> canMovePos;
-	
+
 	Rook() {
 		this->pos.x = 0;
 		this->pos.y = 0;
 	}
 
+	//init
 	Rook(int index, int color) {
 		if (index == 0) {
 			this->pos.x = 0;
@@ -35,10 +36,12 @@ public:
 		this->color = color;
 	}
 
+	//init
 	Rook(Position thePos) {
 		this->pos = thePos;
 	}
 
+	//move the chessman
 	bool move(Position to)
 	{
 		for (int i = 0; i < canMovePos.size(); i++) {

@@ -21,6 +21,7 @@ public:
 		this->pos.y = 0;
 	}
 
+	//init
 	Queen(int index, int color) {
 		this->pos.x = 3;
 		if (color == 1) {
@@ -33,10 +34,12 @@ public:
 		this->color = color;
 	}
 
+	//init
 	Queen(Position thePos) {
 		this->pos = thePos;
 	}
 
+	//move the chessman
 	bool move(Position to)
 	{
 		for (int i = 0; i < canMovePos.size(); i++) {

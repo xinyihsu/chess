@@ -14,14 +14,14 @@ public:
 	bool enpassant = false; //move two units
 	Position pos;
 	vector<Position> canMovePos;
-	//vector<Position> moveData;//還沒存 要存嗎?
 
 	Pawn() {
 		this->pos.x = 0;
 		this->pos.y = 0;
 	}
 
-	Pawn(int index,int color) {
+	//init
+	Pawn(int index, int color) {
 		this->pos.x = index;
 
 		if (color == 1) {
@@ -34,10 +34,12 @@ public:
 		this->color = color;
 	}
 
+	//init
 	Pawn(Position thePos) {
 		this->pos = thePos;
 	}
 
+	//move the chessman
 	bool move(Position to)
 	{
 		for (int i = 0; i < canMovePos.size(); i++) {

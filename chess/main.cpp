@@ -1,32 +1,25 @@
-//#include "Position.h"
-//#include "Player.h"
-//#include "GameManager.h"
-//#include "ViewManager.h"
-
+#include <windows.h>
+#include <mmsystem.h>
+#pragma comment (lib,"Winmm.lib")
 #include <iostream>
 #include <vector>
 #include "Position.h"
 #include "Player.h"
 #include "GameManager.h"
 #include "ViewManager.h"
-#include <windows.h>
-#include <mmsystem.h>
-#pragma comment (lib,"Winmm.lib")
+
 using namespace std;
 
 bool moveChess(const char&, const Position&, Position);
 int checkMate(int, Player&, Player&);
 
-Player black(1), white(-1); //白方, 黑方
+Player black(1), white(-1); //black player, white player
 ViewManager myChess;
 GameManager myGame;
 
-int main()
-{
-	PlaySound(TEXT("./music/backround_music.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+int main() {
 	myChess.black = &black;
 	myChess.white = &white;
-	//myGame.turns = -1; //白先 //可再多加玩家決定誰先
 	myGame.menu();
 	black.update();
 	white.update();
@@ -41,27 +34,30 @@ int main()
 		//test if checkMate
 		if (myGame.checkKing == 0) {
 			if (myGame.turns == 1) {
+				cout << "white win" << endl;
 				cout << "black dead" << endl;
 			}
 			else {
+				cout << "black win" << endl;
 				cout << "white dead" << endl;
 			}
 			break;
 		}
+		// king be threatened
 		else if (myGame.checkKing == 1) {
-			cout << "King gonna dead!!Save him!!" << endl;
-			cout << "Only move King!" << endl; //防呆
+			cout << "King gonna dead!!Save him/her/them!!" << endl;
+			cout << "Only move King!" << endl;
 		}
 
 		//test if draw
 		if (myGame.turns == 1) {
-			if (myGame.testIfDraw(black, white)) {//未測試過
+			if (myGame.testIfDraw(black, white)) {
 				cout << "Draw" << endl;
 				break;
 			}
 		}
 		else {
-			if (myGame.testIfDraw(white, black)) {//未測試過
+			if (myGame.testIfDraw(white, black)) {
 				cout << "Draw" << endl;
 				break;
 			}
@@ -85,6 +81,7 @@ int main()
 			cout << "FEN success" << endl;
 			continue;
 		}
+
 		//restart
 		if (input == "restart")
 		{
@@ -103,6 +100,8 @@ int main()
 			cout << "restart successful" << endl;
 			continue;
 		}
+
+		//undo
 		if (input == "undo") {
 			if (myGame.turns == 1) {
 				myGame.turns = -1;
@@ -122,7 +121,7 @@ int main()
 			cout << "undo success" << endl;
 			continue;
 		}
-
+		//test if invalid
 		else if (input.size() != 2 || !isalpha(input[0]) || !isdigit(input[1])) {
 			system("cls");
 			cout << "invalid input" << endl;
@@ -133,6 +132,7 @@ int main()
 		fromPos.x = input[0] - 'a';
 		fromPos.y = 7 - (input[1] - '1');
 
+		//test if invalid
 		if (fromPos.x > 7 || fromPos.x < 0 || fromPos.y > 7 || fromPos.y < 0) {
 			system("cls");
 			cout << "invalid position(out of board)" << endl;
@@ -167,10 +167,11 @@ int main()
 			}
 		}
 
+		//king is threaten
 		if (myGame.checkKing == 1 && chess != 'K') {
 			system("cls");
 			cout << "you can only move king." << endl;
-			return false;
+			continue;
 		}
 
 		//print can move pos
@@ -184,6 +185,7 @@ int main()
 		cout << "input x y (to):";
 		cin >> input;
 
+		//change the chess choose
 		if (input == "no") {
 			system("cls");
 			cout << "again" << endl;
@@ -199,28 +201,30 @@ int main()
 		toPos.x = input[0] - 'a';
 		toPos.y = 7 - (input[1] - '1');
 
+		//if input invalid
 		if (toPos.x > 7 || toPos.x < 0 || toPos.y > 7 || toPos.y < 0) {
 			system("cls");
 			cout << "invalid toPos(out of board)" << endl;
 			continue;
 		}
-
 		if (fromPos == toPos) {
 			system("cls");
 			cout << "invalid position(重複)" << endl;
 			continue;
 		}
 
-		//存檔
+		//archive
 		tmpB = black;
 		tmpW = white;
 
+		//if cna not move success
 		if (!moveChess(chess, fromPos, toPos)) {
 			system("cls");
 			cout << "move invalid" << endl;
 			continue;
 		}
 
+		//doing promoting
 		if (myGame.turns == -1) {
 			if (toPos.y == 0 && chess == 'P') {
 				white.promoting(toPos);
@@ -231,15 +235,13 @@ int main()
 				black.promoting(toPos);
 			}
 		}
-		//cout << "OK1";
+
 		black.update();
 		white.update();
-		//cout << "OK2";
 		black.updateCanMovePos(white);
 		white.updateCanMovePos(black);
-		//cout << "OK3";
 
-		//換人
+		//change the player
 		if (myGame.turns == 1) myGame.turns = -1;
 		else myGame.turns = 1;
 
@@ -247,9 +249,14 @@ int main()
 	PlaySound(NULL, NULL, SND_ASYNC | SND_PURGE);
 }
 
+/**
+ * Intent: move the chess
+ * Pre: the chess, fromPos and toPos
+ * Post: boolean
+ */
 bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 {
-	//move or eat //!!!!canmovepos==0
+	//move or eat
 	if (myGame.turns == 1) {
 		if (black.playerBoard[toPos.y][toPos.x] != ' ') {
 			system("cls");
@@ -259,7 +266,7 @@ bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 		else {
 			//move
 			if (black.move(chess, fromPos, toPos)) {
-				//system("cls");
+				system("cls");
 				cout << "success!" << endl;
 			}
 			else {
@@ -268,13 +275,13 @@ bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 				return false;
 			}
 
+			//pawn is not enpassant
 			for (int i = 0; i < white.pawn.size(); i++) {
 				white.pawn[i].enpassant = false;
 			}
 
 			//eat
 			if (white.playerBoard[toPos.y][toPos.x] != ' ') {
-				//把白棋刪除
 				white.beEat(toPos);
 			}
 			//eat enpassant
@@ -297,7 +304,7 @@ bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 		else {
 			//move
 			if (white.move(chess, fromPos, toPos)) {
-				//system("cls");
+				system("cls");
 				cout << "success" << endl;
 			}
 			else {
@@ -312,7 +319,6 @@ bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 
 			//eat
 			if (black.playerBoard[toPos.y][toPos.x] != ' ') {
-				//把黑棋刪除
 				black.beEat(toPos);
 			}
 			//eat enpassant
@@ -330,13 +336,13 @@ bool moveChess(const char& chess, const Position& fromPos, Position toPos)
 }
 
 int checkMate(int index, Player& black, Player& white) {
-	//確認有無被威脅
+	//check if threaten
 	int checkKing = 0;
 	int checCheck = 0;
-	//檢查對方每個棋子能否吃到他
-	//判斷國王 1黑 -1白
+	//check if all chess can eat it
+	//judge king (1:black/-1:white)
 	if (index == 1) {
-		//國王可以移動範圍
+		//king can move range
 		for (int i = 0; i < black.king[0].canMovePos.size(); i++) {
 			checkKing = 0;
 			//Q
@@ -384,7 +390,6 @@ int checkMate(int index, Player& black, Player& white) {
 				if (checkKing == 1) { break; }
 				for (int k = 0; k < white.bishop[j].canMovePos.size(); k++) {
 					if (black.king[0].canMovePos[i] == white.bishop[j].canMovePos[k]) {
-						//auto item = black.king[0].canMovePos.erase(black.king[0].canMovePos.begin() + i);
 						checkKing = 1;
 						checCheck = 1;
 						break;
@@ -396,7 +401,13 @@ int checkMate(int index, Player& black, Player& white) {
 			for (int j = 0; j < white.pawn.size(); j++) {
 				if (checkKing == 1) { break; }
 				for (int k = 0; k < white.pawn[j].canMovePos.size(); k++) {
-					if (black.king[0].canMovePos[i] == white.pawn[j].canMovePos[k]) {
+					if (black.king[0].canMovePos[i].x == white.pawn[j].canMovePos[k].x - 1 && black.king[0].canMovePos[i].y == white.pawn[j].canMovePos[k].y) {
+						auto item = black.king[0].canMovePos.erase(black.king[0].canMovePos.begin() + i);
+						checkKing = 1;
+						checCheck = 1;
+						break;
+					}
+					if (black.king[0].canMovePos[i].x == white.pawn[j].canMovePos[k].x + 1 && black.king[0].canMovePos[i].y == white.pawn[j].canMovePos[k].y) {
 						auto item = black.king[0].canMovePos.erase(black.king[0].canMovePos.begin() + i);
 						checkKing = 1;
 						checCheck = 1;
@@ -407,7 +418,7 @@ int checkMate(int index, Player& black, Player& white) {
 		}
 	}
 	else if (index == -1) {
-		//最外圈國王可以移動範圍
+		//king can move range in outer circle
 		for (int i = 0; i < white.king[0].canMovePos.size(); i++) {
 			checkKing = 0;
 			//Q
@@ -466,7 +477,13 @@ int checkMate(int index, Player& black, Player& white) {
 			for (int j = 0; j < black.pawn.size(); j++) {
 				if (checkKing == 1) { break; }
 				for (int k = 0; k < black.pawn[j].canMovePos.size(); k++) {
-					if (white.king[0].canMovePos[i] == black.pawn[j].canMovePos[k]) {
+					if (white.king[0].canMovePos[i].x == black.pawn[j].canMovePos[k].x - 1 && white.king[0].canMovePos[i].y == black.pawn[j].canMovePos[k].y) {
+						auto item = white.king[0].canMovePos.erase(white.king[0].canMovePos.begin() + i);
+						checkKing = 1;
+						checCheck = 1;
+						break;
+					}
+					if (white.king[0].canMovePos[i].x == black.pawn[j].canMovePos[k].x + 1 && white.king[0].canMovePos[i].y == black.pawn[j].canMovePos[k].y) {
 						auto item = white.king[0].canMovePos.erase(white.king[0].canMovePos.begin() + i);
 						checkKing = 1;
 						checCheck = 1;
@@ -479,24 +496,24 @@ int checkMate(int index, Player& black, Player& white) {
 
 	if (index == 1) {
 		if (black.king[0].canMovePos.size() == 0 && checCheck == 1) {
-			return 0; //將死遊戲結束
+			return 0; //checkMate : game over
 		}
 		else if (checCheck == 1) {
-			return 1; //無將死被威脅
+			return 1; //checkMate : be threaten
 		}
 		else {
-			return 2; //無將死無被威脅
+			return 2; //no checkmate and does not be threaten
 		}
 	}
 	else if (index == -1) {
 		if (white.king[0].canMovePos.size() == 0 && checCheck == 1) {
-			return 0; //將死遊戲結束
+			return 0; //checkMate : game over
 		}
 		else if (checCheck == 1) {
-			return 1; //無將死被威脅
+			return 1; //checkMate : be threaten
 		}
 		else {
-			return 2; //無將死無被威脅
+			return 2; //no checkmate and does not be threaten
 		}
 	}
 }

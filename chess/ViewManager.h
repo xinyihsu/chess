@@ -1,19 +1,13 @@
 #pragma once
-#define RESET   "\033[0m"
-#define BLACK_C     "\033[30m"
-#define BLUE_B    "\033[46m"
-#define YELLOW_B  "\033[43m"
-#define RED_B     "\033[41m"
-//#include <iostream>
-//#include <vector>
+#define RESET   "\033[0m" //reset
+#define BLACK_C     "\033[30m" //black letter
+#define BLUE_B    "\033[46m" //blue background
+#define YELLOW_B  "\033[43m" //yellow background
+#define RED_B     "\033[41m" //red background
 #include <sstream>
 using namespace std;
 
-//#define GREEN   "\033[32m"
-//#define DARKBLUE    "\033[34m"
-//#define PURPLE "\033[35m"
-//#define WHITE   "\033[37m"
-
+//to view the board
 class ViewManager
 {
 private:
@@ -21,29 +15,33 @@ private:
 public:
 	Player* black, * white;
 
-	void printBoard()
+	/**
+	 * Intent: print the player board
+	 * Pre: void
+	 * Post: void
+	 */
+	void printBoard(void)
 	{
-		//system("cls");
 		for (int i = 0; i < 8; i++) {
 			cout << 8 - i;
 			for (int j = 0; j < 8; j++) {
 				if ((i % 2 == 0 && j % 2 == 0) || ((i % 2 == 1 && j % 2 == 1))) {
-					cout << YELLOW_B; //¶À©³
+					cout << YELLOW_B; //yellow background
 				}
 				else {
-					cout << BLUE_B; //ÂÅ©³
+					cout << BLUE_B; //blue background
 				}
 
 				if (white->playerBoard[i][j] != ' ') {
 					cout << white->playerBoard[i][j];
 				}
 				else if (black->playerBoard[i][j] != ' ') {
-					cout << BLACK_C << black->playerBoard[i][j]; //¶Â¦r
+					cout << BLACK_C << black->playerBoard[i][j]; //black letter
 				}
 				else {
 					cout << " ";
 				}
-				cout << RESET; //­«»s
+				cout << RESET; //reset
 			}
 			cout << endl;
 		}
@@ -51,20 +49,25 @@ public:
 		cout << " abcdefgh" << endl;
 	}
 
+	/**
+	 * Intent: print can move position
+	 * Pre: the chess can move position
+	 * Post: void
+	 */
 	void printCanMove(vector<Position> print)
 	{
-		//system("cls");
 		for (int i = 0; i < 8; i++) {
 			cout << 8 - i;
 			for (int j = 0; j < 8; j++) {
 
 				if ((i % 2 == 0 && j % 2 == 0) || ((i % 2 == 1 && j % 2 == 1))) {
-					cout << YELLOW_B; //¶À©³
+					cout << YELLOW_B;
 				}
 				else {
-					cout << BLUE_B; //ÂÅ©³
+					cout << BLUE_B;
 				}
 
+				//change the canMovePos backgroung to red
 				for (int k = 0; k < print.size(); k++) {
 					Position locate(j, i);
 					if (locate == print[k]) {
@@ -79,12 +82,12 @@ public:
 					cout << white->playerBoard[i][j];
 				}
 				else if (black->playerBoard[i][j] != ' ') {
-					cout << BLACK_C << black->playerBoard[i][j]; //¶Â¦r
+					cout << BLACK_C << black->playerBoard[i][j];
 				}
 				else {
 					cout << " ";
 				}
-				cout << RESET; //­«»s
+				cout << RESET;
 			}
 			cout << endl;
 		}
@@ -93,8 +96,8 @@ public:
 	}
 
 	/**
-	 * Intent: 
-	 * Pre: 
+	 * Intent: read FEE (doea not success)
+	 * Pre: string
 	 * Post: who first
 	 */
 	int readFEN(string input)
@@ -122,7 +125,7 @@ public:
 				getline(tokenStream, castle, ' '); //castle
 			}
 		}
-		
+
 
 		//init
 		for (int i = 0; i < 8; i++) {
@@ -132,7 +135,7 @@ public:
 			}
 		}
 
-		// ¿é¥X¤À³Î«áªº¦r¦ê
+		//divide
 		int i = 0;
 		for (string str : tokens) {
 			int j = 0;
@@ -154,7 +157,12 @@ public:
 		return turn;
 	}
 
-	void readPlayBoard()
+	/**
+	 * Intent: read playBoard and set chess (not success)
+	 * Pre: void
+	 * Post: void
+	 */
+	void readPlayBoard(void)
 	{
 		//clean
 		black->king.clear();
